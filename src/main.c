@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:42:47 by mvassall          #+#    #+#             */
-/*   Updated: 2025/05/29 17:37:55 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:21:41 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <string.h>
@@ -18,6 +19,20 @@
 #include "hmap.h"
 #include "minishell.h"
 
+static int process(t_minishell *ctx, char *line)
+{
+    t_list  *words;
+    t_pipeline  *cmds;
+
+    if (ctx == NULL || line == NULL)
+        return (-1);
+    words = minishell_parse_line(ctx, line);
+    cmds = minishell_parse_words(ctx, words);
+    ft_lstclear(&words, free);
+    ctx->last_status = minishell_execute(ctx, cmds);
+    // pipeline_destroy(cmds);
+    return (0);
+}
 
 static int interactive(t_minishell *ctx)
 {
@@ -29,8 +44,8 @@ static int interactive(t_minishell *ctx)
         line = readline("minishell$ ");
         if (line == NULL || ft_strcmp(line, "exit"))
             break;
-        ctx->last_status = proc_line(ctx, line);
         add_history(line);
+        process(ctx, line);
         free(line);
         line = NULL;
     }
@@ -54,7 +69,7 @@ static int non_interactive(t_minishell *ctx)
             break;
         line = ft_strtrim(aux, "\n");
         free(aux);
-        ctx->last_status = proc_line(ctx, line);
+        process(ctx, line);
         free(line);
         line = NULL;
     }

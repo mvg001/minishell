@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:07:17 by mvassall          #+#    #+#             */
-/*   Updated: 2025/05/29 18:59:15 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:19:26 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,3 @@ t_result minishell_destroy(t_minishell *ctx)
     return (OP_OK);
 }
 
-int    proc_line(t_minishell *ctx, char *line)
-{
-    if (ctx == NULL || line == NULL)
-    {
-        ft_dprintf(2, "INVALID INPUT\n");
-        return (1);
-    }
-    
-    return (0);
-}
