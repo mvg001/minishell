@@ -6,7 +6,7 @@
 #    By: mvassall <mvassall@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/11 11:05:02 by user1             #+#    #+#              #
-#    Updated: 2025/05/29 17:03:36 by mvassall         ###   ########.fr        #
+#    Updated: 2025/06/03 17:58:48 by mvassall         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra
 RM = /bin/rm -f
 
-OBJS = src/hmap1.o src/hmap2.o src/hmap3.o src/main.o src/minishell1.o
+OBJS = src/hmap1.o src/hmap2.o src/hmap3.o src/main.o src/minishell1.o \
+src/parser1.o src/minishell2.o
+
 NAME = minishell
 
 .PHONY: all clean fclean re
