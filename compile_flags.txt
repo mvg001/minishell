@@ -1,0 +1,7 @@
+-Wextra
+-Wall
+-Werror
+-Wunreachable-code
+-Ofast 
+-I./libft
+-I./include

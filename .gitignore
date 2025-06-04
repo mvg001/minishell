@@ -3,6 +3,7 @@
 *.out
 *.md
 *.txt
+!compile_flags.txt
 tests/
 maps/
 bin/
