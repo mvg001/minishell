@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/04 11:44:17 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/04 18:12:44 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,10 +317,11 @@ t_list  *minishell_parse_line(t_minishell *ctx, char *line)
             else if (ft_isspace(*line))
             {
                 append_word(&words, &cw);
+                state = 1;
             }
             else
             {
-                
+                cw = append_char(cw, *line);
             }
         }
         else
