@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/03 18:33:52 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:44:17 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ t_list  *minishell_parse_line(t_minishell *ctx, char *line)
     int     state;
     int     error_flag;
 
-    ft_dprintf(2, "minishell_parse_line: begin\n");
     if (ctx == NULL || line == NULL)
     {
-        ft_dprintf(2, "minishell_parse_line: end-1\n");
         return (NULL);
     }
     cw = NULL;
@@ -126,14 +124,15 @@ t_list  *minishell_parse_line(t_minishell *ctx, char *line)
         }
         else if (state == 2)
         {
-            state = 1;
             if (*line == '<')
             {
                 cw = append_char(cw, *line);
                 append_word(&words, &cw);
+                state = 10;
             }
             else
             {
+                state = 1;
                 append_word(&words, &cw);
                 if (*line == '\0')
                     state = 0;
@@ -190,6 +189,7 @@ t_list  *minishell_parse_line(t_minishell *ctx, char *line)
             if (*line == '\0')
             {
                 error_flag = 1;
+                ft_dprintf(2, "Closing apostrophe missing\n");
                 state = 0;
             }
             else if (*line == '\'')
@@ -202,6 +202,7 @@ t_list  *minishell_parse_line(t_minishell *ctx, char *line)
             if (*line == '\0')
             {
                 error_flag = 1;
+                ft_dprintf(2, "Closing quotation mark missing\n");
                 state = 0;
             }
             else if (*line == '$')
@@ -219,6 +220,7 @@ t_list  *minishell_parse_line(t_minishell *ctx, char *line)
             if (*line == '\0')
             {
                 error_flag = 1;
+                ft_dprintf(2, "Closing quotation mark missing\n");
                 state = 0;
             }
             else if (is_first_char_identifier(*line))
@@ -237,6 +239,7 @@ t_list  *minishell_parse_line(t_minishell *ctx, char *line)
             if (*line == '\0')
             {
                 error_flag = 1;
+                ft_dprintf(2, "Closing quotation mark missing\n");
                 state = 0;
             }
             else if (*line == '_' || ft_isalnum(*line))
@@ -250,6 +253,81 @@ t_list  *minishell_parse_line(t_minishell *ctx, char *line)
                 state = 7;
             }
         }
+        else if (state == 10)
+        {
+            if (ft_isspace(*line))
+                state = 10;
+            else if (*line == '\'')
+            {
+                cw = ft_strdup("");
+                state = 11;
+            }
+            else if (*line == '"')
+            {
+                cw = ft_strdup("");
+                state = 12;
+            }
+            else if (*line == '\0')
+                state = 0;
+            else
+            {
+                cw = append_char(cw, *line);
+                state = 13;
+            }
+        }
+        else if (state == 11)
+        {
+            if (*line == '\'')
+            {
+                append_word(&words, &cw);
+                state = 1;
+            }
+            else if (*line == '\0')
+            {
+                error_flag = 1;
+                ft_dprintf(2, "Closing apostrophe missing\n");
+                state = 0;
+            }
+            else
+                cw = append_char(cw, *line);
+        }
+        else if (state == 12)
+        {
+            if (*line == '"')
+            {
+                append_word(&words, &cw);
+                state = 1;
+            }
+            else if (*line == '\0')
+            {
+                error_flag = 1;
+                ft_dprintf(2, "Closing quotation mark missing\n");
+                state = 0;
+            }
+            else
+                cw = append_char(cw, *line);
+        }
+        else if (state == 13)
+        {
+            if (*line == '\0')
+            {
+                append_word(&words, &cw);
+                state = 0;
+            }
+            else if (ft_isspace(*line))
+            {
+                append_word(&words, &cw);
+            }
+            else
+            {
+                
+            }
+        }
+        else
+        {
+            ft_dprintf(2, "*** INVALID STATE %d\n", state);
+            break;
+        }
         line++;
     }
     if (key != NULL)
@@ -261,10 +339,9 @@ t_list  *minishell_parse_line(t_minishell *ctx, char *line)
     if (error_flag)
     {
         ft_lstclear(&words, free);
-        ft_dprintf(2, "minishell_parse_line: end-2\n");
+        ft_dprintf(2, "* Invalid input\n");
         return (NULL);
     }
-    ft_dprintf(2, "minishell_parse_line: end-3\n");
     return (words);
 }
 static void print_string(void *p)
