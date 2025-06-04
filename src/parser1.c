@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/04 18:12:44 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/04 19:39:49 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,6 @@
 #include "hmap.h"
 #include "minishell.h"
 #include "libft.h"
-
-static char *append_char(char *w, char c)
-{
-    char    s[2];
-    char    *output;
-
-    s[0] = c;
-    s[1] = '\0';
-    if (w == NULL)
-        return ft_strdup(s);
-    output = ft_strjoin(w, s);
-    free(w);
-    return (output);
-}
-
-static char *append_string(char *w, char *str)
-{
-    char *output;
-
-    if (w == NULL)
-    {
-        if (str == NULL)
-        {
-            return (NULL);
-        }
-        return (ft_strdup(str));
-    }
-    if (str == NULL)
-        return (w);
-    output = ft_strjoin(w, str);
-    free(w);
-    return (output);
-}
-
-static int is_first_char_identifier(char c)
-{
-    return (c == '_' || ft_isalpha(c));
-}
-
-static void append_word(t_list **words, char **w)
-{
-    if (words == NULL || w == NULL || *w == NULL)
-        return ;
-    ft_lstadd_back(words, ft_lstnew(*w));
-    *w = NULL;
-}
 
 t_list  *minishell_parse_line(t_minishell *ctx, char *line)
 {
@@ -81,96 +35,13 @@ t_list  *minishell_parse_line(t_minishell *ctx, char *line)
     while (state != 0)
     {
         if (state == 1)
-        {
-            if (ft_isspace(*line))
-            {
-                append_word(&words, &cw);
-                cw = NULL;
-            }
-            else if (*line == '|')
-            {
-                append_word(&words, &cw);
-                cw = ft_strdup("|");
-                append_word(&words, &cw);
-            }
-            else if (*line == '<')
-            {
-                append_word(&words, &cw);
-                cw = append_char(cw, *line);
-                state = 2;
-            }
-            else if (*line == '>')
-            {
-                append_word(&words, &cw);
-                cw = append_char(cw, *line);
-                state = 3;
-            }
-            else if (*line == '$')
-            {
-                key = NULL;
-                state = 4;
-            }
-            else if (*line == '\'')
-                state = 6;
-            else if (*line == '"')
-                state = 7;
-            else if (*line == '\0')
-            {
-                state = 0;
-                append_word(&words, &cw);
-            }
-            else
-                cw = append_char(cw, *line);
-        }
+            state = parser1_1(&words, &cw, &key, *line);
         else if (state == 2)
-        {
-            if (*line == '<')
-            {
-                cw = append_char(cw, *line);
-                append_word(&words, &cw);
-                state = 10;
-            }
-            else
-            {
-                state = 1;
-                append_word(&words, &cw);
-                if (*line == '\0')
-                    state = 0;
-                else
-                    line--;
-            }
-        }
+            state = parser1_2(&words, &cw, &line);
         else if (state == 3)
-        {
-            state = 1;
-            if (*line == '>')
-            {
-                cw = append_char(cw, *line);
-                append_word(&words, &cw);
-            }
-            else
-            {
-                append_word(&words, &cw);
-                if (*line == '\0')
-                    state = 0;
-                else
-                    line--;
-            }
-        }
+            state = parser1_3(&words, &cw, &line);
         else if (state == 4)
-        {
-            if (is_first_char_identifier(*line))
-            {
-                key = append_char(key, *line);
-                state = 5;
-            }
-            else
-            {
-                line--;
-                cw = append_char(cw, '$');
-                state = 1;
-            }
-        }
+            state = parser1_4(&cw, &key, &line);
         else if (state == 5)
         {
             if (*line == '_' || ft_isalnum(*line))
@@ -344,18 +215,4 @@ t_list  *minishell_parse_line(t_minishell *ctx, char *line)
         return (NULL);
     }
     return (words);
-}
-static void print_string(void *p)
-{
-    ft_printf("[%s]\n", (char *)p);
-}
-t_pipeline *minishell_parse_words(t_minishell *ctx, t_list *words)
-{
-    t_pipeline  *pipeline;
-
-    if (ctx == NULL || words == NULL)
-        return (NULL);
-    pipeline = NULL; // TODO
-    ft_lstiter(words, print_string);
-    return (pipeline);
 }
