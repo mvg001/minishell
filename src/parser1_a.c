@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1_a.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:28:02 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/05 17:41:29 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/05 23:36:20 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int parser1_1a(t_parser_i *pi)
         return 6;
     if (*pi->cchar == '"')
         return 7;
-    if (*pi->cchar == '\0')
+    if (*pi->cchar == '\0' || *pi->cchar == '#')
     {
         append_word(pi);
         return (0);
