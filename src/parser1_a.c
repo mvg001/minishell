@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1_a.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:28:02 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/05 11:19:40 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/05 17:41:29 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,21 @@ int parser1_3(t_parser_i *pi)
     return (1);
 }
 
-int parser1_4(t_parser_i *pi)
+int parser1_4(t_parser_i *pi, int last_status)
 {
+    char *digits;
+
     if (is_first_char_identifier(*pi->cchar))
     {
         pi->key = append_char(pi->key, *pi->cchar);
         return (5);
+    }
+    if (*pi->cchar == '?')
+    {
+        digits = ft_itoa(last_status);
+        append_cw_string(pi, digits);
+        free(digits);
+        return (1);
     }
     pi->cw = append_char(pi->cw, '$');
     pi->cchar--;

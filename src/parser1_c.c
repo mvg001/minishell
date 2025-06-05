@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1_c.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 11:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/05 12:07:26 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/05 16:51:58 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,10 @@ int parser1_10(t_parser_i *pi)
 int parser1_11(t_parser_i *pi)
 {
     if (*pi->cchar == '\'')
-    {
-        append_word(pi);
-        return (1);
-    }
+        return (13);
     if (*pi->cchar == '\0')
     {
-        ft_dprintf(2, "Closing apostrophe missing\n");
+        ft_dprintf(2, "Closing apostrophe missing 1_11\n");
         return (-1);
     }
     append_cw_char(pi, *pi->cchar);
@@ -52,13 +49,10 @@ int parser1_11(t_parser_i *pi)
 int parser1_12(t_parser_i *pi)
 {
     if (*pi->cchar == '"')
-    {
-        append_word(pi);
-        return (1);
-    }
+        return (13);
     if (*pi->cchar == '\0')
     {
-        ft_dprintf(2, "Closing quotation mark missing\n");
+        ft_dprintf(2, "Closing quotation mark missing 1_12\n");
         return (-1);
     }
     append_cw_char(pi, *pi->cchar);
@@ -77,6 +71,10 @@ int parser1_13(t_parser_i *pi)
         append_word(pi);
         return (1);
     }
+    if (*pi->cchar == '\'')
+        return (11);
+    if (*pi->cchar == '"')
+        return (12);
     append_cw_char(pi, *pi->cchar);
     return (13);
 }

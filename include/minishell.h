@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:05:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/05 11:59:28 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/05 17:42:15 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINISHELL_H
 # include "hmap.h"
 # include "libft.h"
-
-# define IFS	" \t\n"
 
 typedef struct s_command
 {
@@ -37,8 +35,6 @@ typedef struct s_minishell
 	t_hmap	*vars;
 	int		last_status;
 }	t_minishell;
-
-
 
 t_result	split_key_value(char *env, t_entry *entry);
 t_hmap		*load_env_vars(char **envp);
@@ -65,11 +61,11 @@ void append_word(t_parser_i *pi);
 int parser1_1(t_parser_i *pi);
 int parser1_2(t_parser_i *pi);
 int parser1_3(t_parser_i *pi);
-int parser1_4(t_parser_i *pi);
+int parser1_4(t_parser_i *pi, int last_status);
 int parser1_5(t_parser_i *pi, t_hmap *hm);
 int parser1_6(t_parser_i *pi);
 int parser1_7(t_parser_i *pi);
-int parser1_8(t_parser_i *pi);
+int parser1_8(t_parser_i *pi, int last_status);
 int parser1_9(t_parser_i *pi, t_hmap *hm);
 int parser1_10(t_parser_i *pi);
 int parser1_11(t_parser_i *pi);

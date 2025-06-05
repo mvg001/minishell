@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:19:54 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/05 12:07:28 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/05 15:54:03 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int is_first_char_identifier(char c)
 
 void append_word(t_parser_i *pi)
 {
-    if (pi == NULL || pi->words == NULL || pi->cw == NULL)
+    if (pi == NULL || pi->cw == NULL)
         return ;
     ft_lstadd_back(&pi->words, ft_lstnew(pi->cw));
     pi->cw = NULL;

@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:42:47 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/03 18:15:52 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:04:12 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ static int process(t_minishell *ctx, char *line)
     t_list  *words;
     t_pipeline  *cmds;
 
-    ft_dprintf(2, "process: begin\n");
     if (ctx == NULL || line == NULL)
     {
-        ft_dprintf(2, "process: end-1\n");
         return (-1);
     }
     words = minishell_parse_line(ctx, line);
@@ -35,7 +33,6 @@ static int process(t_minishell *ctx, char *line)
     ft_lstclear(&words, free);
     ctx->last_status = minishell_execute(ctx, cmds);
     // pipeline_destroy(cmds);
-    ft_dprintf(2, "process: end-2\n");
     return (0);
 }
 
@@ -43,7 +40,6 @@ static int interactive(t_minishell *ctx)
 {
     char *line;
 
-    ft_dprintf(2, "interactive: begin\n");
     using_history();
     while (1)
     {
@@ -56,7 +52,6 @@ static int interactive(t_minishell *ctx)
         line = NULL;
     }
     free(line);
-    ft_dprintf(2, "interactive: end\n");
     return (EXIT_SUCCESS);
 }
 
