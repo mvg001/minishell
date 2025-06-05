@@ -3,97 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   parser1_a.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:28:02 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/04 19:24:32 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:19:40 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 
-static int parser1_1a(t_list **words, char **cw, char **key, char c)
+static int parser1_1a(t_parser_i *pi)
 {
-    if (c == '$')
-        return (*key = NULL, 4);
-    if (c == '\'')
-        return 6;
-    if (c == '"')
-        return 7;
-    if (c == '\0')
+    if (*pi->cchar == '$')
     {
-        append_word(words, cw);
+        pi->key = NULL;
+        return (4);
+    }
+    if (*pi->cchar == '\'')
+        return 6;
+    if (*pi->cchar == '"')
+        return 7;
+    if (*pi->cchar == '\0')
+    {
+        append_word(pi);
         return (0);
     }
-    *cw = append_char(*cw, c);
+    append_cw_char(pi, *pi->cchar);
     return (1);
 }
 
-int parser1_1(t_list **words, char **cw, char **key, char c)
+int parser1_1(t_parser_i *pi)
 {
-    if (ft_isspace(c))
+    if (ft_isspace(*pi->cchar))
     {
-        append_word(words, cw);
+        append_word(pi);
         return (1);
     }
-    if (c == '|')
+    if (*pi->cchar == '|')
     {
-        append_word(words, cw);
-        *cw = ft_strdup("|");
-        append_word(words, cw);
+        append_word(pi);
+        pi->cw = ft_strdup("|");
+        append_word(pi);
         return (1);
     }
-    if (c == '<' || c == '>')
+    if (*pi->cchar == '<' || *pi->cchar == '>')
     {
-        append_word(words, cw);
-        *cw = append_char(*cw, c);
-        if (c == '<')
+        append_word(pi);
+        append_cw_char(pi, *pi->cchar);
+        if (*pi->cchar == '<')
             return (2);
         else
             return (3);
     }
-    return (parser1_1a(words, cw, key, c));
+    return (parser1_1a(pi));
 }
 
-int parser1_2(t_list **words, char **cw, char **c)
+int parser1_2(t_parser_i *pi)
 {
-    if (**c == '<')
+    if (*pi->cchar == '<')
     {
-        *cw = append_char(*cw, '<');
-        append_word(words, cw);
+        append_cw_char(pi, '<');
+        append_word(pi);
         return (10);
     }
-    append_word(words, cw);
-    if (**c == '\0')
+    append_word(pi);
+    if (*pi->cchar == '\0')
         return (0);
-    (*c)--;
+    pi->cchar--;
     return (1);
 }
 
-int parser1_3(t_list **words, char **cw, char **c)
+int parser1_3(t_parser_i *pi)
 {
-    if (**c == '>')
+    if (*pi->cchar == '>')
     {
-        *cw = append_char(*cw, '>');
-        append_word(words, cw);
+        append_cw_char(pi, '>');
+        append_word(pi);
         return (1);
     }
-    append_word(words, cw);
-    if (**c == '\0')
+    append_word(pi);
+    if (*pi->cchar == '\0')
         return (0);
-    (*c)--;
+    pi->cchar--;
     return (1);
 }
 
-int parser1_4(char **cw, char **key, char **c)
+int parser1_4(t_parser_i *pi)
 {
-    if (is_first_char_identifier(**c))
+    if (is_first_char_identifier(*pi->cchar))
     {
-        *key = append_char(*key, **c);
+        pi->key = append_char(pi->key, *pi->cchar);
         return (5);
     }
-    *cw = append_char(*cw, '$');
-    (*c)--;
+    pi->cw = append_char(pi->cw, '$');
+    pi->cchar--;
     return (1);
 }

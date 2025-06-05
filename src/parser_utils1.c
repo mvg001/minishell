@@ -3,15 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:19:54 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/04 18:23:25 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:07:28 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+
+void append_cw_char(t_parser_i *pi, char c)
+{
+    char    s[2];
+    char    *output;
+
+    s[0] = c;
+    s[1] = '\0';
+    if (pi->cw == NULL)
+    {
+        pi->cw = ft_strdup(s);
+        return ;
+    }
+    output = ft_strjoin(pi->cw, s);
+    free(pi->cw);
+    pi->cw = output;
+}
+
+void append_cw_string(t_parser_i *pi, char *str)
+{
+    char *output;
+
+    if (pi->cw == NULL)
+    {
+        if (str == NULL)
+            return ;
+        pi->cw = ft_strdup(str);
+        return ;
+    }
+    if (str == NULL)
+        return ;
+    output = ft_strjoin(pi->cw, str);
+    free(pi->cw);
+    pi->cw = output;
+}
+
+int is_first_char_identifier(char c)
+{
+    return (c == '_' || ft_isalpha(c));
+}
+
+void append_word(t_parser_i *pi)
+{
+    if (pi == NULL || pi->words == NULL || pi->cw == NULL)
+        return ;
+    ft_lstadd_back(&pi->words, ft_lstnew(pi->cw));
+    pi->cw = NULL;
+}
 
 char *append_char(char *w, char c)
 {
@@ -26,36 +74,3 @@ char *append_char(char *w, char c)
     free(w);
     return (output);
 }
-
-char *append_string(char *w, char *str)
-{
-    char *output;
-
-    if (w == NULL)
-    {
-        if (str == NULL)
-        {
-            return (NULL);
-        }
-        return (ft_strdup(str));
-    }
-    if (str == NULL)
-        return (w);
-    output = ft_strjoin(w, str);
-    free(w);
-    return (output);
-}
-
-int is_first_char_identifier(char c)
-{
-    return (c == '_' || ft_isalpha(c));
-}
-
-void append_word(t_list **words, char **w)
-{
-    if (words == NULL || w == NULL || *w == NULL)
-        return ;
-    ft_lstadd_back(words, ft_lstnew(*w));
-    *w = NULL;
-}
-
