@@ -6,7 +6,7 @@
 #    By: mvassall <mvassall@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/11 11:05:02 by user1             #+#    #+#              #
-#    Updated: 2025/03/08 17:14:07 by mvassall         ###   ########.fr        #
+#    Updated: 2025/06/06 15:22:28 by mvassall         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ ft_lstdelone_bonus.o ft_lstiter_bonus.o ft_lstlast_bonus.o ft_lstmap_bonus.o \
 ft_lstnew_bonus.o ft_lstsize_bonus.o \
 ft_printf.o ft_c_conversion.o ft_d_conversion.o ft_p_conversion.o \
 ft_s_conversion.o ft_u_conversion.o ft_x_conversion.o ft_isspace.o \
-ft_atol.o gnl.o gnl_utils_1.o gnl_utils_2.o ft_split_1.o
+ft_atol.o gnl.o gnl_utils_1.o gnl_utils_2.o ft_split_1.o ft_is_number.o
 
 NAME = libft.a
 

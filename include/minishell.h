@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:05:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/05 17:42:15 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/06 16:25:17 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ typedef struct s_command
 {
 	int		n_args;
 	char	**args;
+	char	**envp;
+	char		*input_file;
+	char		*output_file;
+	int			append_output;
 }	t_command;
 
 typedef struct s_pipeline
 {
-	char		*input_file;
-	char		*output_file;
-	int			append_output;
 	int			n_commands;
 	t_command	*commands;
 }	t_pipeline;
@@ -34,7 +35,10 @@ typedef struct s_minishell
 {
 	t_hmap	*vars;
 	int		last_status;
+	int		tmp_count;
 }	t_minishell;
+
+int			g_signal_status;
 
 t_result	split_key_value(char *env, t_entry *entry);
 t_hmap		*load_env_vars(char **envp);

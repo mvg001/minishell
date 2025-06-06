@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:37:14 by mvassall          #+#    #+#             */
-/*   Updated: 2025/05/29 16:16:18 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/06 17:14:04 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ typedef struct s_entry
 {
     char            *key;
     char            *value;
+    int             is_export;
     struct s_entry  *next;
 } t_entry;
 
@@ -44,4 +45,6 @@ void    hmap_dump(int fd, t_hmap *hm);
 t_result    hmap_delete(t_hmap *hm, char *key);
 unsigned int hmap_size(t_hmap *hm);
 unsigned int default_hash_func(char *txt);
+void hmap_export_entry(t_hmap *hm, char *key);
+char **hmap_envp(t_hmap *hm);
 #endif
