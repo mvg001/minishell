@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   hmap.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:37:14 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/06 23:26:05 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/09 15:44:49 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HASH_MAP_H
 # define HASH_MAP_H
-
+# include "libft.h"
 typedef struct s_entry
 {
     char            *key;
@@ -47,5 +47,7 @@ unsigned int hmap_size(t_hmap *hm);
 unsigned int default_hash_func(char *txt);
 void hmap_export_entry(t_hmap *hm, char *key);
 char *hmap_join_key_value(t_entry *e);
-char **hmap_envp(t_hmap *hm);
+char **hmap_to_envp(t_hmap *hm);
+t_list *hmap_to_lst(t_hmap *hm);
+char **hmap_lst_to_envp(t_list *var_lst);
 #endif

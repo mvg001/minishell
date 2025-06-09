@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hmap3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:15:02 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/06 23:26:40 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/09 14:20:57 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static int envp_1(t_hmap *hm, char **envp, unsigned int i, unsigned int j)
     return (1);
 }
 
-char **hmap_envp(t_hmap *hm)
+char **hmap_to_envp(t_hmap *hm)
 {
     char **envp;
 

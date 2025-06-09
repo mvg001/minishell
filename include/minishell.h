@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:05:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/06 16:25:17 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/09 20:13:35 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_minishell
 	t_hmap	*vars;
 	int		last_status;
 	int		tmp_count;
+	int		pid;
 }	t_minishell;
 
 int			g_signal_status;
@@ -47,6 +48,7 @@ t_result	minishell_destroy(t_minishell *ctx);
 t_list		*minishell_parse_line(t_minishell *ctx, char *line);
 t_pipeline	*minishell_parse_words(t_minishell *ctx, t_list *words);
 int			minishell_execute(t_minishell *ctx, t_pipeline *cmds);
+int			ft_getpid();
 
 typedef struct s_parser_i
 {

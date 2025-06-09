@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:07:17 by mvassall          #+#    #+#             */
-/*   Updated: 2025/05/31 16:19:26 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/09 20:15:08 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,15 @@ t_minishell *minishell_init(char **envp)
     ctx = ft_calloc(1, sizeof(t_minishell));
     if (ctx == NULL)
         return (NULL);
-    ctx->last_status = 0;
     ctx->vars = load_env_vars(envp);
     if (ctx->vars == NULL)
     {
         free(ctx);
         return (NULL);
     }
+    ctx->last_status = 0;
+    ctx->pid = ft_getpid();
+    ctx->tmp_count = 1;
     return (ctx);
 }
 
