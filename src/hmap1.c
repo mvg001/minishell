@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hmap1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:59:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/05/28 11:15:49 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/06 23:37:31 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_entry *entry_create(char *key, char *value, t_entry *next)
         free(e);
         return (NULL);
     }
+    e->is_export = 0;
     e->next = next;
     return (e);
 }

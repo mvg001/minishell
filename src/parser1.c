@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/05 17:46:36 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/07 08:55:03 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include "minishell.h"
 #include "libft.h"
 
-static int	parser1_1_10(t_parser_i *pi, t_hmap *vars, int state, int last_status)
+static int	parser1_1_10(t_parser_i *pi, t_hmap *vars, int state,
+	int last_status)
 {
 	if (state == 1)
 		return (parser1_1(pi));

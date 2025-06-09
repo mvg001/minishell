@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hmap3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:15:02 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/06 17:31:43 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/06 23:26:40 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void hmap_export_entry(t_hmap *hm, char *key)
     return ;
 }
 
-static char *join_key_value(t_entry *e)
+char *hmap_join_key_value(t_entry *e)
 {
     unsigned int len;
     char *output;
@@ -81,7 +81,7 @@ static int envp_1(t_hmap *hm, char **envp, unsigned int i, unsigned int j)
         {
             if (e->is_export)
             {
-                envp[j] = join_key_value(e);
+                envp[j] = hmap_join_key_value(e);
                 if (envp[j] == NULL)
                     return (0);
                 j++;
