@@ -26,7 +26,7 @@ all: $(NAME)
 $(NAME): $(OBJS) libft/libft.a
 	$(CC) -o $(NAME) $(OBJS) -L./libft/ -lft -lreadline
 
-$(OBJS): libft/libft.h include/hmap.h include/minishell.h
+$(OBJS): libft/libft.h include/hmap.h include/minishell.h include/parser.h
 
 %.o: %.c
 	$(CC) $(CFLAGS) -I./libft/ -I./include -o $@ -c $<

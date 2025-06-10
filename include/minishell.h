@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:05:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/09 20:13:35 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:37:00 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_minishell
 	int		pid;
 }	t_minishell;
 
-int			g_signal_status;
+extern int			g_signal_status;
 
 t_result	split_key_value(char *env, t_entry *entry);
 t_hmap		*load_env_vars(char **envp);
@@ -50,31 +50,4 @@ t_pipeline	*minishell_parse_words(t_minishell *ctx, t_list *words);
 int			minishell_execute(t_minishell *ctx, t_pipeline *cmds);
 int			ft_getpid();
 
-typedef struct s_parser_i
-{
-	t_list	*words;
-	char	*cw;
-	char	*key;
-	char	*cchar;
-} t_parser_i;
-
-char *append_char(char *w, char c);
-void append_cw_char(t_parser_i *pi, char c);
-void append_cw_string(t_parser_i *pi, char *str);
-int is_first_char_identifier(char c);
-void append_word(t_parser_i *pi);
-
-int parser1_1(t_parser_i *pi);
-int parser1_2(t_parser_i *pi);
-int parser1_3(t_parser_i *pi);
-int parser1_4(t_parser_i *pi, int last_status);
-int parser1_5(t_parser_i *pi, t_hmap *hm);
-int parser1_6(t_parser_i *pi);
-int parser1_7(t_parser_i *pi);
-int parser1_8(t_parser_i *pi, int last_status);
-int parser1_9(t_parser_i *pi, t_hmap *hm);
-int parser1_10(t_parser_i *pi);
-int parser1_11(t_parser_i *pi);
-int parser1_12(t_parser_i *pi);
-int parser1_13(t_parser_i *pi);
 #endif
