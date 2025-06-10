@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:05:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/10 14:37:00 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/10 21:28:07 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_minishell
 	int		last_status;
 	int		tmp_count;
 	int		pid;
+	int		is_interactive;
 }	t_minishell;
 
 extern int			g_signal_status;

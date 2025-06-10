@@ -29,3 +29,22 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	}
 	*lst = NULL;
 }
+
+void	ft_lstclean(t_list **lst, void (*del)(void *))
+{
+	t_list	*p_node;
+	t_list	*p_node_next;
+
+	if (lst == NULL)
+		return ;
+	p_node = *lst;
+	while (p_node != NULL)
+	{
+		if (del != NULL)
+			del(p_node->content);
+		p_node_next = p_node->next;
+		free(p_node);
+		p_node = p_node_next;
+	}
+	*lst = NULL;
+}

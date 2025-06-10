@@ -6,12 +6,11 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/10 14:36:03 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/10 14:56:18 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "hmap.h"
 #include "minishell.h"
 #include "libft.h"
 #include "parser.h"

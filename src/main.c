@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:42:47 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/05 15:04:12 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/10 21:45:25 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <string.h>
 #include <unistd.h>
 #include "libft.h"
 #include "hmap.h"
 #include "minishell.h"
 
-static int process(t_minishell *ctx, char *line)
+static int process_line(t_minishell *ctx, char *line)
 {
     t_list  *words;
     t_pipeline  *cmds;
@@ -40,6 +39,7 @@ static int interactive(t_minishell *ctx)
 {
     char *line;
 
+    ctx->is_interactive = 1;
     using_history();
     while (1)
     {
@@ -47,7 +47,7 @@ static int interactive(t_minishell *ctx)
         if (line == NULL || ft_strcmp(line, "exit") == 0)
             break;
         add_history(line);
-        process(ctx, line);
+        process_line(ctx, line);
         free(line);
         line = NULL;
     }
@@ -64,6 +64,7 @@ static int non_interactive(t_minishell *ctx)
     rb = gnl_alloc_buf(4096);
     if (rb == NULL)
         return (OP_FAILED);
+    ctx->is_interactive = 0;
     while (1)
     {
         aux = gnl_getline(0, rb);
@@ -71,7 +72,7 @@ static int non_interactive(t_minishell *ctx)
             break;
         line = ft_strtrim(aux, "\n");
         free(aux);
-        process(ctx, line);
+        process_line(ctx, line);
         free(line);
         line = NULL;
     }
@@ -93,7 +94,8 @@ int main(int ac, char **av, char **envp)
         ft_dprintf(2, "unable to load environment vars\n");
         exit(EXIT_FAILURE);
     }
-    hmap_dump(2, ctx->vars);
+    // hmap_dump(2, ctx->vars);
+    ctx->pid = ft_getpid();
     if (isatty(0))
         status = interactive(ctx);
     else

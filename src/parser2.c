@@ -100,7 +100,7 @@ t_result tokenizer_4(t_parser_i *pi)
     }
     else if (*pi->cchar == '\0')
     {
-        ft_dprintf(2, "Missing closing apostrophe\n");
+        ft_dprintf(2, "Missing closing single quote\n");
         pi->state = -1;
     }
     else
