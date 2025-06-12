@@ -6,13 +6,13 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:44:54 by user1             #+#    #+#             */
-/*   Updated: 2025/06/10 13:46:28 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/11 17:28:44 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
-#include "hmap.h"
+# include "hmap.h"
 # include "libft.h"
 
 typedef enum e_ttype
@@ -29,22 +29,36 @@ typedef struct s_token
     char *string;
 } t_token;
 
-typedef struct s_parser_i
+// parser state
+typedef struct s_ps
 {
     int     state;
 	t_list	*words;
 	char	*cw;
 	char	*key;
 	char	*cchar;
-} t_parser_i;
+} t_ps;
 
 char *append_char(char *w, char c);
-t_result append_cw_char(t_parser_i *pi, char c);
-t_result append_cw_string(t_parser_i *pi, char *str);
-t_result append_word(t_parser_i *pi);
-t_result tokenizer_1(t_parser_i *pi);
-t_result tokenizer_2(t_parser_i *pi);
-t_result tokenizer_3(t_parser_i *pi);
-t_result tokenizer_4(t_parser_i *pi);
-t_result tokenizer_5(t_parser_i *pi);
+t_ps	*ps_create(char *input_txt, int initial_state);
+void    ps_destroy(t_ps **ps);
+
+t_result pi_append_cw_char(t_ps *pi, char c);
+t_result pi_append_cw_string(t_ps *pi, char *str);
+t_result pi_append_word(t_ps *pi);
+t_result tokenizer_1(t_ps *pi);
+t_result tokenizer_2(t_ps *pi);
+t_result tokenizer_3(t_ps *pi);
+t_result tokenizer_4(t_ps *pi);
+t_result tokenizer_5(t_ps *pi);
+int count_pipe_operators(t_list *words);
+t_list  *split_simple_commands(t_list *words);
+
+t_list  *expand_word(char *input_txt, t_hmap *vars);
+t_result expand_word_1(t_ps *ps, t_hmap *vars);
+t_result expand_word_2(t_ps *ps, t_hmap *vars);
+t_result expand_word_3(t_ps *ps, t_hmap *vars);
+t_result expand_word_4(t_ps *ps, t_hmap *vars);
+t_result expand_word_5(t_ps *ps, t_hmap *vars);
+t_result expand_word_6(t_ps *ps, t_hmap *vars);
 #endif

@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:19:54 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/10 13:53:23 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/11 16:15:56 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "parser.h"
 
-t_result append_cw_char(t_parser_i *pi, char c)
+t_result pi_append_cw_char(t_ps *pi, char c)
 {
     char    s[2];
     char    *output;
@@ -36,7 +36,7 @@ t_result append_cw_char(t_parser_i *pi, char c)
     return (OP_OK);
 }
 
-t_result append_cw_string(t_parser_i *pi, char *str)
+t_result pi_append_cw_string(t_ps *pi, char *str)
 {
     char *output;
 
@@ -59,7 +59,7 @@ t_result append_cw_string(t_parser_i *pi, char *str)
     return (OP_OK);
 }
 
-t_result append_word(t_parser_i *pi)
+t_result pi_append_word(t_ps *pi)
 {
     t_list *new_node;
 
