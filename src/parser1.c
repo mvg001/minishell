@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/11 17:44:20 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/14 12:45:21 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,44 +32,35 @@ t_ps	*ps_create(char *input_txt, int initial_state)
 	return (ps);
 }
 
-void	ps_destroy(t_ps **parser_state)
+t_list	*ps_destroy(t_ps **parser_state)
 {
 	t_ps *ps;
+	t_list	*words_saved;
 
 	if (parser_state == NULL)
-		return ;
+		return (NULL);
 	ps = *parser_state;
 	if (ps == NULL)
-		return ;
+		return (NULL);
 	if (ps->key != NULL)
 		free(ps->key);
 	if (ps->cw != NULL)
 		free(ps->cw);
+	words_saved = ps->words;
 	free(ps);
 	*parser_state = NULL;
+	return (words_saved);
 }
 
-/* static void loop_states_tokenizer(t_ps *ps)
-{
-	while (ps->state > 0)
-	{
-		if (ps->state == 1)
-			tokenizer_1(ps);
-		else if (ps->state == 2)
-			tokenizer_2(ps);
-		else if (ps->state == 3)
-			tokenizer_3(ps);
-		else if (ps->state == 4)
-			tokenizer_4(ps);
-		else if (ps->state == 5)
-			tokenizer_5(ps);
-		ps->cchar++;
-	}
-} */
 static void loop_states_tokenizer(t_ps *ps)
 {
 	t_result (*state_func[])(t_ps *) = {
-		NULL, tokenizer_1, tokenizer_2, tokenizer_3, tokenizer_4, tokenizer_5
+		NULL,
+		tokenizer_1,
+		tokenizer_2,
+		tokenizer_3,
+		tokenizer_4,
+		tokenizer_5,
 };
 	while (ps->state > 0)
 	{
@@ -81,7 +72,6 @@ static void loop_states_tokenizer(t_ps *ps)
 t_list *parser_tokenizer(t_minishell *ctx, char *line)
 {
 	t_ps	*ps;
-	t_list	*words;
 
 	if (ctx == NULL || line == NULL)
 		return (NULL);
@@ -96,18 +86,21 @@ t_list *parser_tokenizer(t_minishell *ctx, char *line)
 		ps_destroy(&ps);
 		return (NULL);
 	}
-	words = ps->words;
-	ps_destroy(&ps);
-	return (words);
+	return (ps_destroy(&ps));
 }
-
 
 t_list	*minishell_parse_line(t_minishell *ctx, char *line)
 {
 	t_list		*words;
+	t_list		*output;
 
 	if (ctx == NULL || line == NULL)
 		return (NULL);
 	words = parser_tokenizer(ctx, line);
-	return (words);
+	parser_print_words("tokenizer output words", words);
+	output = expand_words(words, ctx);
+	parser_print_words("expand_words output words", output);
+	if (words != NULL)
+		ft_lstclear(&words, free);
+	return (output);
 }

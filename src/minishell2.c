@@ -6,16 +6,12 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 17:31:30 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/10 13:47:15 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/14 12:11:37 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void print_string(void *p)
-{
-    ft_printf("[%s]\n", (char *)p);
-}
+#include "parser.h"
 
 t_pipeline *minishell_parse_words(t_minishell *ctx, t_list *words)
 {
@@ -24,7 +20,7 @@ t_pipeline *minishell_parse_words(t_minishell *ctx, t_list *words)
     if (ctx == NULL || words == NULL)
         return (NULL);
     pipeline = NULL; // TODO
-    ft_lstiter(words, print_string);
+    parser_print_words("minishell_parse_words:", words);
     return (pipeline);
 }
 

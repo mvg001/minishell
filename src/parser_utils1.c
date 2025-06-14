@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:19:54 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/12 09:42:01 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/14 10:10:25 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,14 @@ char *append_char(char *w, char c)
     output = ft_strjoin(w, s);
     free(w);
     return (output);
+}
+
+void    parser_print_words(char *title, t_list *words)
+{
+    ft_dprintf(2, "%s\n", title);
+    while (words != NULL)
+    {
+        ft_dprintf(2, "[%s]\n", words->content);
+        words = words->next;
+    }
 }

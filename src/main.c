@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:42:47 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/10 21:45:25 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/14 12:09:54 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,81 +103,3 @@ int main(int ac, char **av, char **envp)
     minishell_destroy(ctx);
     return (status);
 }
-
-
-
-
-/*
-int main(int ac, char **av, char **envp)
-{
-    (void)ac;
-    (void)av;
-    (void)envp;
-    char *line;
-    char *val;
-    int i;
-    t_buf *buf = gnl_alloc_buf(4096);
-
-    t_hmap *hm = hmap_create(128, hash_func);
-    if (hm == NULL)
-    {
-        ft_dprintf(2, "hmap_create failed\n");
-        return (1);
-    }
-    i = 0;
-    while (envp[i] != NULL)
-    {
-        char **fields = ft_split(envp[i], '=');
-        if (fields != NULL)
-        {
-            hmap_put(hm, fields[0], fields[1]);
-            ft_dispose_split(fields);
-        }
-        i++;
-    }
-    hmap_dump(2, hm);
-    line = NULL;
-    while (1)
-    {
-        ft_dprintf(1, "minishell$ ");
-        val = gnl_getline(0, buf);
-        line = ft_strtrim(val, "\n");
-        free(val);
-        if (line == NULL || ft_strcmp(line, "exit") == 0)
-            break;
-        char **fields = ft_split(line, ' ');
-        free(line);
-        if (fields != NULL)
-        {
-            int count = ft_split_count(fields);
-            if (count == 2 && ft_strcmp(fields[0], "show") == 0)
-            {
-                char *val = hmap_lookup(hm, fields[1]);
-                ft_dprintf(1, "'%s' => '%s'\n", fields[1], val);
-                free(val);
-            } else if (count == 3 && ft_strcmp(fields[0], "put") == 0)
-            {
-                int result = hmap_put(hm, fields[1], fields[2]);
-                ft_dprintf(1, "%s\n", result == OP_OK ? "OK" : "FAILED");
-            } else if (count == 2 && ft_strcmp(fields[0], "del") == 0)
-            {
-                int result = hmap_delete(hm, fields[1]);
-                ft_dprintf(1, "%s\n", result == OP_OK ? "OK" : "FAILED");
-            } else if (count == 1 && ft_strcmp(fields[0], "dump") == 0)
-            {
-                hmap_dump(1, hm);
-            } else
-            {
-                ft_dprintf(2, "invalid input\n");
-            }
-            ft_dispose_split(fields);
-        }
-    }
-    free(line);
-    gnl_dispose(buf);
-    hmap_destroy(hm);
-	return 0;
-}
-*/
-
-
