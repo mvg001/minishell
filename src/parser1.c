@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/14 12:45:21 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/14 18:25:07 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,19 @@ t_list *parser_tokenizer(t_minishell *ctx, char *line)
 t_list	*minishell_parse_line(t_minishell *ctx, char *line)
 {
 	t_list		*words;
+	t_list		*exp_words;
 	t_list		*output;
 
 	if (ctx == NULL || line == NULL)
 		return (NULL);
 	words = parser_tokenizer(ctx, line);
 	parser_print_words("tokenizer output words", words);
-	output = expand_words(words, ctx);
-	parser_print_words("expand_words output words", output);
+	exp_words = expand_words(words, ctx);
 	if (words != NULL)
 		ft_lstclear(&words, free);
+	parser_print_words("expand_words output words", exp_words);
+	output = ft_lstmap(exp_words, cleanup_quotes_dc1_dc2, free);
+	if (exp_words != NULL)
+		ft_lstclear(&exp_words, free);
 	return (output);
 }

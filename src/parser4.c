@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 09:09:15 by user1             #+#    #+#             */
-/*   Updated: 2025/06/14 12:39:50 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/14 18:09:09 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ t_result expand_word_3(t_ps *ps, t_minishell *ctx)
     ps->state = 1;
     ps->cchar--;
     value = hmap_lookup(ctx->vars, ps->key);
-    if (value != NULL)
-    {
-        ps_append_cw_string(ps, value);
-        free(value);
-    }
+    if (value == NULL)
+        value = ft_strdup("");
+    else
+        ft_striteri(value, substitute_quotes_dc1_dc2);
+    ps_append_cw_string(ps, value);
+    free(value);
     free(ps->key);
     ps->key = NULL;
     return (OP_OK);
@@ -89,11 +90,12 @@ t_result expand_word_7(t_ps *ps, t_minishell *ctx)
     ps->state = 5;
     ps->cchar--;
     value = hmap_lookup(ctx->vars, ps->key);
-    if (value != NULL)
-    {
-        ps_append_cw_string(ps, value);
-        free(value);
-    }
+    if (value == NULL)
+        value = ft_strdup("");
+    else
+        ft_striteri(value, substitute_quotes_dc1_dc2);
+    ps_append_cw_string(ps, value);
+    free(value);
     free(ps->key);
     ps->key = NULL;
     return (OP_OK);
