@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hmap2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:24:00 by mvassall          #+#    #+#             */
-/*   Updated: 2025/05/29 16:48:52 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:31:20 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void    hmap_dump(int fd, t_hmap *hm)
             ft_dprintf(fd, "index = %d\n", index);
         while (entry != NULL)
         {
-            ft_dprintf(fd, "\t'%s' => '%s'\n",
-                entry->key, entry->value);
+            ft_dprintf(fd, "\t'%s' => '%s', is_export %d\n",
+                entry->key, entry->value, entry->is_export);
             entry = entry->next;
         }
         index++;

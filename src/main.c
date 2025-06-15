@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:42:47 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/14 12:09:54 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/15 20:38:26 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int main(int ac, char **av, char **envp)
         ft_dprintf(2, "unable to load environment vars\n");
         exit(EXIT_FAILURE);
     }
-    // hmap_dump(2, ctx->vars);
+    hmap_dump(2, ctx->vars);
     ctx->pid = ft_getpid();
     if (isatty(0))
         status = interactive(ctx);

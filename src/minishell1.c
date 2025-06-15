@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:07:17 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/09 20:15:08 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:38:10 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,6 @@
 #include "hmap.h"
 #include "minishell.h"
 #include "libft.h"
-
-t_result split_key_value(char *env, t_entry *entry)
-{
-    char *delim;
-
-    if (env == NULL || entry == NULL)
-        return (OP_INVALID);
-    delim = ft_strchr(env, '=');
-    if (delim == NULL)
-        return (OP_FAILED);
-    entry->key = ft_substr(env, 0, delim - env);
-    if (entry->key == NULL)
-        return (OP_FAILED);
-    entry->value = ft_strdup(delim + 1);
-    if (entry->value == NULL)
-    {
-        free(entry->key);
-        return (OP_FAILED);
-    }
-    return (OP_OK);
-}
-
-t_hmap  *load_env_vars(char **envp)
-{
-    int count;
-    t_hmap  *vars;
-    t_entry e;
-
-    if (envp == NULL)
-        return (NULL);
-    count = ft_split_count(envp);
-    if (count <= 0)
-        return (NULL);
-    vars = hmap_create(count * 2, default_hash_func);
-    if (vars == NULL)
-        return (NULL);
-    while (*envp != NULL)
-    {
-        if (split_key_value(*envp++, &e) == OP_OK)
-        {
-            hmap_put(vars, e.key, e.value);
-            free(e.key);
-            free(e.value);
-        }
-    }
-    return (vars);
-}
 
 t_minishell *minishell_init(char **envp)
 {
