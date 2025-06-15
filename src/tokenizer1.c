@@ -1,18 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser2.c                                          :+:      :+:    :+:   */
+/*   tokenizer1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 18:24:11 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/12 08:49:29 by user1            ###   ########.fr       */
+/*   Created: 2025/06/15 13:19:30 by user1             #+#    #+#             */
+/*   Updated: 2025/06/15 13:21:15 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hmap.h"
-#include "libft.h"
 #include "parser.h"
+
+static void loop_states_tokenizer(t_ps *ps)
+{
+	t_result (*state_func[])(t_ps *) = {
+		NULL,
+		tokenizer_1,
+		tokenizer_2,
+		tokenizer_3,
+		tokenizer_4,
+		tokenizer_5,
+};
+	while (ps->state > 0)
+	{
+		state_func[ps->state](ps);
+		ps->cchar++;
+	}
+}
+
+t_list *parser_tokenizer(t_minishell *ctx, char *line)
+{
+	t_ps	*ps;
+
+	if (ctx == NULL || line == NULL)
+		return (NULL);
+	ps = ps_create(line, 1);
+	if (ps == NULL)
+		return (NULL);
+	loop_states_tokenizer(ps);
+	if (ps->state < 0)
+	{
+		ft_lstclear(&ps->words, free);
+		ft_dprintf(2, "* Invalid input\n");
+		ps_destroy(&ps);
+		return (NULL);
+	}
+	return (ps_destroy(&ps));
+}
 
 static t_result tokenizer_1a(t_ps *pi)
 {
@@ -70,40 +105,5 @@ t_result tokenizer_2(t_ps *pi)
         ps_append_word(pi);
         pi->cchar--;
     }
-    return (OP_OK);
-}
-
-t_result tokenizer_3(t_ps *pi)
-{
-    ps_append_word(pi);
-    pi->state = 1;
-    if (*pi->cchar == '>')
-    {
-        ps_append_cw_string(pi, ">>");
-        ps_append_word(pi);
-    }
-    else
-    {
-        ps_append_cw_char(pi, '>');
-        ps_append_word(pi);
-        pi->cchar--;
-    }
-    return (OP_OK);
-}
-
-t_result tokenizer_4(t_ps *pi)
-{
-    if (*pi->cchar == '\'')
-    {
-        ps_append_cw_char(pi, '\'');
-        pi->state = 1;
-    }
-    else if (*pi->cchar == '\0')
-    {
-        ft_dprintf(2, "Missing closing single quote\n");
-        pi->state = -1;
-    }
-    else
-        ps_append_cw_char(pi, *pi->cchar);
     return (OP_OK);
 }

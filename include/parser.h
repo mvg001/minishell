@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:44:54 by user1             #+#    #+#             */
-/*   Updated: 2025/06/14 18:23:13 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/15 13:07:47 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,11 @@ char *append_char(char *w, char c);
 t_ps	*ps_create(char *input_txt, int initial_state);
 t_list	*ps_destroy(t_ps **parser_state);
 void parser_print_ps(t_ps *ps);
-void    substitute_quotes_dc1_dc2(unsigned int pos, char *ptrc);
+
+# define DC1 ('\x11')
+# define DC2 ('\x12')
+void    substitute_quotes_dc1_dc2(char *str);
+void    substitute_dc1_dc2_quotes(char *str);
 void    *cleanup_quotes_dc1_dc2(void *ptr);
 
 t_result ps_append_cw_char(t_ps *ps, char c);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser3.c                                          :+:      :+:    :+:   */
+/*   expand_word1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:27:13 by user1             #+#    #+#             */
-/*   Updated: 2025/06/14 17:42:04 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/15 13:25:04 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,6 @@
 #include "minishell.h"
 #include "parser.h"
 #include <unistd.h>
-
-t_result	tokenizer_5(t_ps *pi)
-{
-	if (*pi->cchar == '"')
-	{
-		ps_append_cw_char(pi, '"');
-		pi->state = 1;
-	}
-	else if (*pi->cchar == '\0')
-	{
-		ft_dprintf(2, "Missing closing double quote\n");
-		pi->state = -1;
-	}
-	else
-		ps_append_cw_char(pi, *pi->cchar);
-	return (OP_OK);
-}
 
 static void	expand_word_loop(t_ps *ps, t_minishell *ctx)
 {
@@ -103,4 +86,27 @@ t_result	expand_word_2(t_ps *ps, t_minishell *ctx)
 	}
 	ps->cchar--;
 	return (ps->state = 1, ps_append_cw_char(ps, '$'));
+}
+
+t_result expand_word_3(t_ps *ps, t_minishell *ctx)
+{
+    char *value;
+
+    if (*ps->cchar == '_' || ft_isalnum(*ps->cchar))
+    {
+        ps->key = append_char(ps->key, *ps->cchar);
+        return (OP_OK);
+    }
+    ps->state = 1;
+    ps->cchar--;
+    value = hmap_lookup(ctx->vars, ps->key);
+    if (value == NULL)
+        value = ft_strdup("");
+    else
+        substitute_quotes_dc1_dc2(value);
+    ps_append_cw_string(ps, value);
+    free(value);
+    free(ps->key);
+    ps->key = NULL;
+    return (OP_OK);
 }

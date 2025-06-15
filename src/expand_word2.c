@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser4.c                                          :+:      :+:    :+:   */
+/*   expand_word2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 09:09:15 by user1             #+#    #+#             */
-/*   Updated: 2025/06/14 18:09:09 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/15 13:25:56 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,6 @@
 #include "libft.h"
 #include "parser.h"
 #include <complex.h>
-
-t_result expand_word_3(t_ps *ps, t_minishell *ctx)
-{
-    char *value;
-
-    if (*ps->cchar == '_' || ft_isalnum(*ps->cchar))
-    {
-        ps->key = append_char(ps->key, *ps->cchar);
-        return (OP_OK);
-    }
-    ps->state = 1;
-    ps->cchar--;
-    value = hmap_lookup(ctx->vars, ps->key);
-    if (value == NULL)
-        value = ft_strdup("");
-    else
-        ft_striteri(value, substitute_quotes_dc1_dc2);
-    ps_append_cw_string(ps, value);
-    free(value);
-    free(ps->key);
-    ps->key = NULL;
-    return (OP_OK);
-}
 
 t_result expand_word_4(t_ps *ps, t_minishell *ctx)
 {
@@ -93,7 +70,7 @@ t_result expand_word_7(t_ps *ps, t_minishell *ctx)
     if (value == NULL)
         value = ft_strdup("");
     else
-        ft_striteri(value, substitute_quotes_dc1_dc2);
+        substitute_quotes_dc1_dc2(value);
     ps_append_cw_string(ps, value);
     free(value);
     free(ps->key);

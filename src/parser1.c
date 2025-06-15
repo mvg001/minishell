@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/14 18:25:07 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/15 13:46:44 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,43 +52,6 @@ t_list	*ps_destroy(t_ps **parser_state)
 	return (words_saved);
 }
 
-static void loop_states_tokenizer(t_ps *ps)
-{
-	t_result (*state_func[])(t_ps *) = {
-		NULL,
-		tokenizer_1,
-		tokenizer_2,
-		tokenizer_3,
-		tokenizer_4,
-		tokenizer_5,
-};
-	while (ps->state > 0)
-	{
-		state_func[ps->state](ps);
-		ps->cchar++;
-	}
-}
-
-t_list *parser_tokenizer(t_minishell *ctx, char *line)
-{
-	t_ps	*ps;
-
-	if (ctx == NULL || line == NULL)
-		return (NULL);
-	ps = ps_create(line, 1);
-	if (ps == NULL)
-		return (NULL);
-	loop_states_tokenizer(ps);
-	if (ps->state < 0)
-	{
-		ft_lstclear(&ps->words, free);
-		ft_dprintf(2, "* Invalid input\n");
-		ps_destroy(&ps);
-		return (NULL);
-	}
-	return (ps_destroy(&ps));
-}
-
 t_list	*minishell_parse_line(t_minishell *ctx, char *line)
 {
 	t_list		*words;
@@ -98,11 +61,15 @@ t_list	*minishell_parse_line(t_minishell *ctx, char *line)
 	if (ctx == NULL || line == NULL)
 		return (NULL);
 	words = parser_tokenizer(ctx, line);
+# ifdef DEBUG
 	parser_print_words("tokenizer output words", words);
+# endif
 	exp_words = expand_words(words, ctx);
 	if (words != NULL)
 		ft_lstclear(&words, free);
+# ifdef DEBUG
 	parser_print_words("expand_words output words", exp_words);
+# endif
 	output = ft_lstmap(exp_words, cleanup_quotes_dc1_dc2, free);
 	if (exp_words != NULL)
 		ft_lstclear(&exp_words, free);
