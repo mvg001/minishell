@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:05:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/15 20:37:25 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/16 18:35:11 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 
 typedef struct s_command
 {
-	int		n_args;
 	char	**args;
 	char	**envp;
-	char		*input_file;
-	char		*output_file;
-	int			append_output;
+	char	*input_file;
+	int		is_here_doc;
+	char	*output_file;
+	int		append_output;
 }	t_command;
 
 typedef struct s_pipeline
@@ -42,12 +42,16 @@ typedef struct s_minishell
 
 extern int			g_signal_status;
 
-t_result	split_key_value(char *env, t_entry *entry);
 t_minishell	*minishell_init(char **envp);
 t_result	minishell_destroy(t_minishell *ctx);
 t_list		*minishell_parse_line(t_minishell *ctx, char *line);
 t_pipeline	*minishell_parse_words(t_minishell *ctx, t_list *words);
 int			minishell_execute(t_minishell *ctx, t_pipeline *cmds);
 int			ft_getpid();
-
+t_command   *msh_create_command(void);
+void    msh_destroy_command(t_command **simple_command);
+void    msh_print_command(int fd, t_command *sc);
+t_result    msh_command_set_input(t_command *sc, char *filename, int is_here_doc);
+t_result    msh_command_set_output(t_command *sc, char *filename, int is_app_mode);
+t_result    msh_command_set_args(t_command *sc, char **args);
 #endif

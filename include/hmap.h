@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:37:14 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/15 20:37:10 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/16 17:32:10 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,5 @@ char **hmap_to_envp(t_hmap *hm);
 t_list *hmap_to_lst(t_hmap *hm);
 char **hmap_lst_to_envp(t_list *var_lst);
 t_hmap  *load_env_vars(char **envp);
+t_result	split_key_value(char *env, t_entry *entry);
 #endif
