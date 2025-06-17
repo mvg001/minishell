@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hmap1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:59:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/06 23:37:31 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/17 19:15:49 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_entry *entry_create(char *key, char *value, t_entry *next)
 {
     t_entry *e;
 
-    if (key == NULL || value == NULL)
+    if (key == NULL || !ft_is_str_identifier(key))
         return (NULL);
     e = ft_calloc(1, sizeof(t_entry));
     if (e == NULL)
