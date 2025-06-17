@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/15 13:46:44 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/17 14:34:51 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_ps	*ps_create(char *input_txt, int initial_state)
 
 t_list	*ps_destroy(t_ps **parser_state)
 {
-	t_ps *ps;
+	t_ps	*ps;
 	t_list	*words_saved;
 
 	if (parser_state == NULL)
@@ -52,6 +52,8 @@ t_list	*ps_destroy(t_ps **parser_state)
 	return (words_saved);
 }
 
+// parser_print_words("tokenizer output words", words);
+// parser_print_words("expand_words output words", exp_words);
 t_list	*minishell_parse_line(t_minishell *ctx, char *line)
 {
 	t_list		*words;
@@ -61,15 +63,9 @@ t_list	*minishell_parse_line(t_minishell *ctx, char *line)
 	if (ctx == NULL || line == NULL)
 		return (NULL);
 	words = parser_tokenizer(ctx, line);
-# ifdef DEBUG
-	parser_print_words("tokenizer output words", words);
-# endif
 	exp_words = expand_words(words, ctx);
 	if (words != NULL)
 		ft_lstclear(&words, free);
-# ifdef DEBUG
-	parser_print_words("expand_words output words", exp_words);
-# endif
 	output = ft_lstmap(exp_words, cleanup_quotes_dc1_dc2, free);
 	if (exp_words != NULL)
 		ft_lstclear(&exp_words, free);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_command1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 17:37:40 by user1             #+#    #+#             */
-/*   Updated: 2025/06/16 18:26:11 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/17 14:49:00 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void    msh_destroy_command(t_command **simple_command)
     sc = *simple_command;
     if (sc->args != NULL)
         ft_dispose_split(sc->args);
-    if (sc->envp != NULL)
-        ft_dispose_split(sc->envp);
     if (sc->input_file != NULL)
         free(sc->input_file);
     if (sc->output_file != NULL)
@@ -46,7 +44,7 @@ void    msh_print_command(int fd, t_command *sc)
 {
     if (fd <= 0 || sc == NULL)
         return ;
-    ft_dprintf(fd, "{\n\tinput_file='%s'\n", sc->input_file);
+    ft_dprintf(fd, "t_command{\n\tinput_file='%s'\n", sc->input_file);
     ft_dprintf(fd, "{\n\tis_here_doc='%s'\n", sc->is_here_doc);
     ft_dprintf(fd, "\toutput_file='%s'\n", sc->output_file);
     ft_dprintf(fd, "\tappend_output=%d\n", sc->append_output);
