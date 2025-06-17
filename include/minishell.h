@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:05:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/16 18:35:11 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/17 12:49:38 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,23 @@
 typedef struct s_command
 {
 	char	**args;
-	char	**envp;
 	char	*input_file;
 	int		is_here_doc;
 	char	*output_file;
 	int		append_output;
+	char	*path;		// Fran
+	int		fd_input;	// Fran
+	int		fd_output;	// Fran
+	int		type;		// Fran
+	int		error;		// Fran
 }	t_command;
 
 typedef struct s_pipeline
 {
 	int			n_commands;
 	t_command	*commands;
+	char		**envp;
+
 }	t_pipeline;
 
 typedef struct s_minishell
