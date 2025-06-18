@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hmap3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:15:02 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/09 14:20:57 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/18 09:53:52 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,15 @@ char *hmap_join_key_value(t_entry *e)
     if (e == NULL)
         return (NULL);
     len = ft_strlen(e->key) + 2;
-    len += ft_strlen(e->value);
+    if (e->value != NULL)
+        len += ft_strlen(e->value);
     output = ft_calloc(1, len * sizeof(char));
     if (output == NULL)
         return (NULL);
     ft_strlcpy(output, e->key, len);
     ft_strlcat(output, "=", len);
-    ft_strlcat(output, e->value, len);
+    if (e->value != NULL)
+        ft_strlcat(output, e->value, len);
     return (output);
 }
 

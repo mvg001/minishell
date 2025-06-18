@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hmap1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:59:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/17 19:15:49 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/18 09:16:24 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ t_entry *entry_create(char *key, char *value, t_entry *next)
     }
     e->is_export = 0;
     e->next = next;
+    return (e);
+}
+
+t_entry *hmap_create_entry(char *key, char *value, int is_export)
+{
+    t_entry *e;
+
+    e = entry_create(key, value, NULL);
+    if (e == NULL)
+        return (NULL);
+    e->is_export = is_export;
     return (e);
 }
 
@@ -95,24 +106,4 @@ void    hmap_destroy(t_hmap *hm)
     }
     free(hm->entries);
     free(hm);
-}
-
-char    *hmap_lookup(t_hmap *hm, char *key)
-{
-    unsigned int    index;
-    t_entry         *entry;
-
-    if (hm == NULL || key == NULL)
-        return (NULL);
-    index = hm->hash_func(key) % hm->n_entries;
-    entry = hm->entries[index];
-    if (entry == NULL)
-        return (NULL);
-    while (entry != NULL)
-    {
-        if (ft_strcmp(entry->key, key) == 0)
-            return (ft_strdup(entry->value));
-        entry = entry->next;
-    }
-    return (NULL);
 }

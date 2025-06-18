@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hmap.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:37:14 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/17 19:29:17 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/18 10:02:50 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,14 @@ typedef struct s_hmap
 
 // key and value are duplicated
 t_entry			*entry_create(char *key, char *value, t_entry *next);
+t_entry			*hmap_create_entry(char *key, char *value, int is_export);
 t_result		entry_destroy(t_entry *e);
 t_hmap			*hmap_create(unsigned int initial_capacity,
 					unsigned int (*f)(char *key));
 void			hmap_destroy(t_hmap *hm);
 char			*hmap_lookup(t_hmap *hm, char *key);
 t_result		hmap_put(t_hmap *hm, char *key, char *value);
+t_result		hmap_put_entry(t_hmap *hm, char *key, char *value, int is_export);
 void			hmap_dump(int fd, t_hmap *hm);
 t_result		hmap_delete(t_hmap *hm, char *key);
 unsigned int	hmap_size(t_hmap *hm);
@@ -56,4 +58,5 @@ char			**hmap_lst_to_envp(t_list *var_lst);
 t_hmap			*load_env_vars(char **envp);
 t_result		split_key_value(char *env, t_entry *entry);
 int				ft_is_str_identifier(char *str);
+int				hmap_has_key(t_hmap *hm, char *key);
 #endif

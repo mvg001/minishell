@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:24:00 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/15 20:31:20 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/18 09:50:02 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,54 +18,58 @@ t_result    hmap_put(t_hmap *hm, char *key, char *value)
 {
     unsigned int    index;
     t_entry         *entry;
+    char            *aux;
 
-    if (hm == NULL || key == NULL || value == NULL)
+    if (hm == NULL || key == NULL || !ft_is_str_identifier(key))
         return (OP_INVALID);
     index = hm->hash_func(key) % hm->n_entries;
     entry = hm->entries[index];
-    while (entry != NULL)
-    {
-        if (ft_strcmp(entry->key, key) == 0)
-        {
-            free(entry->value);
-            entry->value = ft_strdup(value);
-            if (entry->value == NULL)
-                return (OP_FAILED);
-            return (OP_OK);
-        }
+    while (entry != NULL && ft_strcmp(entry->key, key) != 0)
         entry = entry->next;
+    if (entry != NULL)
+    {
+        if (value == NULL)
+            return (entry->value = NULL, OP_OK);
+        aux = ft_strdup(value);
+        if (aux == NULL)
+            return (OP_FAILED);
+        return (entry->value = aux, OP_OK);
     }
-    hm->entries[index] = entry_create(key, value, hm->entries[index]);
-    if (hm->entries[index] == NULL)
+    entry = entry_create(key, value, hm->entries[index]);
+    if (entry == NULL)
         return (OP_FAILED);
-    return (OP_OK);
+    return (hm->entries[index] = entry, OP_OK);
 }
 
-void    hmap_dump(int fd, t_hmap *hm)
+t_result    hmap_put_entry(t_hmap *hm, char *key, char *value, int is_export)
 {
     unsigned int    index;
-    unsigned int    size;
     t_entry         *entry;
+    char            *aux;
 
-    if (fd < 0 || hm == NULL)
-        return ;
-    size = hmap_size(hm);
-    ft_dprintf(fd, "size = %u\n", size);
-    index = 0;
-    while (index < hm->n_entries)
+    if (hm == NULL || key == NULL || !ft_is_str_identifier(key))
+        return (OP_INVALID);
+    is_export = is_export != 0;
+    index = hm->hash_func(key) % hm->n_entries;
+    entry = hm->entries[index];
+    while (entry != NULL && ft_strcmp(entry->key, key) != 0)
+        entry = entry->next;
+    if (entry != NULL)
     {
-        entry = hm->entries[index];
-        if (entry != NULL)
-            ft_dprintf(fd, "index = %d\n", index);
-        while (entry != NULL)
-        {
-            ft_dprintf(fd, "\t'%s' => '%s', is_export %d\n",
-                entry->key, entry->value, entry->is_export);
-            entry = entry->next;
-        }
-        index++;
+        if (value == NULL)
+            return (entry->value = NULL, entry->is_export = is_export, OP_OK);
+        aux = ft_strdup(value);
+        if (aux == NULL)
+            return (OP_FAILED);
+        return (entry->value = aux, entry->is_export = is_export, OP_OK);
     }
+    entry = entry_create(key, value, hm->entries[index]);
+    if (entry == NULL)
+        return (OP_FAILED);
+    entry->is_export = is_export;
+    return (hm->entries[index] = entry, OP_OK);
 }
+
 static t_result    hmap_del_entry(t_entry *entry, char *key)
 {
     t_entry *aux;
