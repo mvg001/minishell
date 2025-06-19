@@ -6,71 +6,74 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:47:45 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/09 20:20:26 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:28:58 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include "libft.h"
+#include "hmap.h"
 #include "minishell.h"
 
-static char *ft_loop_file(int fd, t_buf *rb)
+t_result    pipe1(t_pp *pps)
 {
-    char *line;
-    char *ppid_line;
+    t_entry *e;
+    t_list  *aux;
 
-    ppid_line = NULL;
-    while (1)
+    if (pps->ctk == NULL)
+        return (pps->state = 0, OP_OK);
+    pps->op = get_operator_type(pps->ctk->content);
+    if (pps->op != OPER_NONE && pps->op != OPER_ERROR)
+        return (pps->state = 2, OP_OK);
+    e = hmap_create_entry_from_str(pps->ctk->content, 0);
+    if (e != NULL)
     {
-        line = gnl_getline(fd, rb);
-        if (line == NULL)
-            break;
-        if (ft_strncmp(line, "PPid:", 5) == 0)
-        {
-            ppid_line = line;
-            break;
-        }
-        free(line);
+        aux = ft_lstnew(e);
+        if (aux == NULL)
+            return (pps->state = -1, OP_FAILED);
+        ft_lstadd_back(&pps->vars, aux);
+        return (pps->state = 5, OP_OK);
     }
-    return (ppid_line);
+    aux = ft_lstnew(pps->ctk->content);
+    if (aux == NULL)
+        return (pps->state = -1, OP_FAILED);
+    ft_lstadd_back(&pps->args, aux);
+    return (pps->state = 3, OP_OK);
 }
 
-static char *read_ppid_line()
+t_result    pipe2(t_pp *pps)
 {
-    int fd;
-    t_buf *rb;
-    char    *ppid_line;
-    
-    fd = open("/proc/self/status", O_RDONLY);
-    if (fd < 0)
-        return NULL;
-    rb = gnl_alloc_buf(1024);
-    if (rb == NULL)
+    t_operator opt;
+
+    if (pps->ctk == NULL)
+        return (pps->state = -1, OP_OK);
+    opt = get_operator_type(pps->ctk->content);
+    if (opt != OPER_ERROR && opt != OPER_NONE)
+        return (pps->state = -1, OP_OK);
+    pps->state = 1;
+    if (pps->op == OPER_GT || pps->op == OPER_GT_GT)
     {
-        close(fd);
-        return (NULL);
+        pps->ccmd->output_file = ft_strdup(pps->ctk->content);
+        pps->ccmd->append_output = (pps->op == OPER_GT_GT);
+        pps->op = OPER_NONE;
+        return (pps->op = OPER_NONE, OP_OK);
     }
-    ppid_line = ft_loop_file(fd, rb);
-    gnl_dispose(rb);
-    close(fd);
-    return (ppid_line);
+    if (pps->op == OPER_LT || pps->op == OPER_LT_LT)
+    {
+        pps->ccmd->input_file = ft_strdup(pps->ctk->content);
+        pps->ccmd->is_here_doc = (pps->op == OPER_LT_LT);
+        pps->op = OPER_NONE;
+        return (OP_OK);
+    }
+    pps->state = -1;
+    return (OP_FAILED);
 }
 
-int ft_getpid()
+t_result    pipe3(t_pp *pps)
 {
-    char *ppid_line;
-    char *colon_ptr;
-    int pid;
+    char    **av;
 
-    ppid_line = read_ppid_line();
-    if (ppid_line == NULL)
-        return (-1);
-    pid = -1;
-    colon_ptr = ft_strchr(ppid_line, ':');
-    if (colon_ptr != NULL)
-        pid = ft_atoi(colon_ptr + 1);
-    free(ppid_line);
-    return (pid);
+    if (pps->ctk == NULL)
+    {
+        
+        pps->ccmd->args = pps->args;
+    }
 }

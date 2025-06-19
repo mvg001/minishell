@@ -6,7 +6,7 @@
 /*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 18:20:54 by user1             #+#    #+#             */
-/*   Updated: 2025/06/16 18:33:05 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/18 14:15:08 by user1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,3 +24,12 @@ t_result    msh_command_set_args(t_command *sc, char **args)
     return (OP_OK);
 }
 
+t_result    msh_command_set_path(t_command *sc, char *path)
+{
+    if (sc == NULL)
+        return (OP_INVALID);
+    if (sc->path != NULL)
+        free(sc->path);
+    sc->path = path;
+    return (OP_OK);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hmap4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 14:21:21 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/18 09:56:31 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/18 16:36:50 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,20 @@ t_hmap  *load_env_vars(char **envp)
         }
     }
     return (vars);
+}
+
+t_entry *hmap_create_entry_from_str(char *str, int is_export)
+{
+    t_entry e;
+    t_entry *output;
+
+    if (str == NULL)
+        return (NULL);
+    is_export = is_export != 0;
+    if (split_key_value(str, &e) != OP_OK)
+        return (NULL);
+    output = hmap_create_entry(e.key, e.value, is_export);
+    free(e.key);
+    free(e.value);
+    return (output);
 }
