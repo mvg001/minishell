@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:05:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/18 19:05:28 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/20 07:38:10 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,26 +61,20 @@ typedef struct s_pp
 {
 	int			state;
 	t_operator	op;
-	t_list		*tokens;
-	t_list		*ctk;
-	t_list		*cmds;
-	t_list		*vars;
-	t_list		*args;
-	t_command	*ccmd;
+	t_list		*tokens;	// all tokens recognized
+	t_list		*ctk;		// current token 
+	t_list		*cmds;		// commands already grouped
+	t_list		*vars;		// list of KEY=VALUE elements
+	t_list		*args;		// argument list for the current command
+	t_command	*ccmd;		// current command
 }	t_pp;
-/*
-typedef enum e_result
-{
-	OP_OK,
-	OP_FAILED,
-	OP_INVALID
-}	t_result;*/
+
 extern int			g_signal_status;
 
 t_minishell	*minishell_init(char **envp);
 t_result	minishell_destroy(t_minishell *ctx);
-t_list		*minishell_parse_line(t_minishell *ctx, char *line);
-t_pipeline	*minishell_parse_words(t_minishell *ctx, t_list *words);
+char		**minishell_parse_line(t_minishell *ctx, char *line);
+t_pipeline	*minishell_parse_words(t_minishell *ctx, char **tokens);
 int			minishell_execute(t_minishell *ctx, t_pipeline *cmds);
 int			ft_getpid();
 
@@ -92,6 +86,8 @@ t_result    msh_command_set_output(t_command *sc, char *filename, int is_app_mod
 t_result    msh_command_set_args(t_command *sc, char **args);
 t_result    msh_command_set_path(t_command *sc, char *path);
 
+char    **ft_lst_to_argv(t_list *lst, int is_deep_copy);
+
 t_pipeline	*msh_create_pipeline(void);
 void	msh_destroy_pipeline(t_pipeline *pline);
 void	msh_print_pipeline(int fd, t_pipeline *pline);
@@ -99,5 +95,7 @@ void	msh_print_pipeline(int fd, t_pipeline *pline);
 t_operator  get_operator_type(char *str);
 t_result    pipe1(t_pp *pps);
 t_result    pipe2(t_pp *pps);
-
+t_result    pipe3(t_pp *pps);
+t_result    pipe4(t_pp *pps);
+t_result    pipe5(t_pp *pps);
 #endif

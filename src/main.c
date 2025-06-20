@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:42:47 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/15 20:38:26 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/20 07:16:47 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@
 
 static int process_line(t_minishell *ctx, char *line)
 {
-    t_list  *words;
+    char  **tokens;
     t_pipeline  *cmds;
 
     if (ctx == NULL || line == NULL)
     {
         return (-1);
     }
-    words = minishell_parse_line(ctx, line);
-    cmds = minishell_parse_words(ctx, words);
-    ft_lstclear(&words, free);
+    tokens = minishell_parse_line(ctx, line);
+    cmds = minishell_parse_words(ctx, tokens);
+    ft_dispose_split(tokens);
     ctx->last_status = minishell_execute(ctx, cmds);
     // pipeline_destroy(cmds);
     return (0);

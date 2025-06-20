@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hmap1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:59:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/18 09:16:24 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/19 13:51:08 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,12 @@ t_entry *entry_create(char *key, char *value, t_entry *next)
         return (NULL);
     e->key = ft_strdup(key);
     if (e->key == NULL)
-    {
-        free(e);
-        return (NULL);
-    }
-    e->value = ft_strdup(value);
-    if (e->value == NULL)
-    {
-        free(e->key);
-        free(e);
-        return (NULL);
-    }
+        return (free(e), NULL);
+    e->value = NULL;
+    if (value != NULL)
+        e->value = ft_strdup(value);
+    if (e->value == NULL && value != NULL)
+        return (free(e->key), free(e), NULL);
     e->is_export = 0;
     e->next = next;
     return (e);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hmap3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:15:02 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/18 09:53:52 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/19 14:01:16 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void hmap_export_entry(t_hmap *hm, char *key)
         }
         entry = entry->next;
     }
-    return ;
 }
 
 char *hmap_join_key_value(t_entry *e)

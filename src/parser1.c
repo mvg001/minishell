@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/17 14:34:51 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/20 07:40:17 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,8 @@ t_list	*ps_destroy(t_ps **parser_state)
 	return (words_saved);
 }
 
-// parser_print_words("tokenizer output words", words);
-// parser_print_words("expand_words output words", exp_words);
-t_list	*minishell_parse_line(t_minishell *ctx, char *line)
+
+char	**minishell_parse_line(t_minishell *ctx, char *line)
 {
 	t_list		*words;
 	t_list		*exp_words;

@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:44:54 by user1             #+#    #+#             */
-/*   Updated: 2025/06/18 15:40:30 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/20 07:18:48 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void		*cleanup_quotes_dc1_dc2(void *ptr);
 t_result	ps_append_cw_char(t_ps *ps, char c);
 t_result	ps_append_cw_string(t_ps *ps, char *str);
 t_result	ps_append_word(t_ps *ps);
-t_list		*parser_tokenizer(t_minishell *ctx, char *line);
+char		**parser_tokenizer(t_minishell *ctx, char *line);
 t_result	tokenizer_1(t_ps *ps);
 t_result	tokenizer_2(t_ps *ps);
 t_result	tokenizer_3(t_ps *ps);

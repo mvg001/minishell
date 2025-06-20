@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 17:31:30 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/18 19:27:49 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/20 07:38:14 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,28 @@ t_pipeline *minishell_parse_words(t_minishell *ctx, t_list *words)
     return (NULL);
 }
 
-char    **ft_lst_to_argv(t_list *lst)
+char    **ft_lst_to_argv(t_list *lst, int is_deep_copy)
 {
     char    **av;
-    int     size;
     int     i;
     char    *aux;
 
-    size = ft_lstsize(lst) + 1;
-    av = ft_calloc(size, sizeof(char *));
+    if (lst == NULL)
+        return (NULL);
+    av = ft_calloc(ft_lstsize(lst) + 1, sizeof(char *));
     if (av == NULL)
         return (NULL);
-    i = -1;
-    while (++i < size)
+    i = 0;
+    while (lst != NULL)
     {
-        aux = ft_strdup(lst->content);
-        if (aux == NULL)
-            return (ft_dispose_split(av));
-        av[i] = aux;
+        aux = lst->content;
+        if (is_deep_copy)
+        {
+            aux = ft_strdup(lst->content);
+            if (aux == NULL)
+                return (ft_dispose_split(av));
+        }
+        av[i++] = aux;
         lst = lst->next;
     }
     return (av);

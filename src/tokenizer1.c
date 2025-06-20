@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 13:19:30 by user1             #+#    #+#             */
-/*   Updated: 2025/06/15 13:21:15 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/20 07:40:15 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void loop_states_tokenizer(t_ps *ps)
 	}
 }
 
-t_list *parser_tokenizer(t_minishell *ctx, char *line)
+char **parser_tokenizer(t_minishell *ctx, char *line)
 {
 	t_ps	*ps;
 
@@ -46,6 +46,7 @@ t_list *parser_tokenizer(t_minishell *ctx, char *line)
 		ps_destroy(&ps);
 		return (NULL);
 	}
+    
 	return (ps_destroy(&ps));
 }
 
