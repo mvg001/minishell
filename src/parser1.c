@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:47:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/20 07:40:17 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/20 10:18:20 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ t_list	*ps_destroy(t_ps **parser_state)
 	return (words_saved);
 }
 
-
 char	**minishell_parse_line(t_minishell *ctx, char *line)
 {
 	t_list		*words;
 	t_list		*exp_words;
-	t_list		*output;
+	t_list		*output_lst;
+	char		**tokens;
 
 	if (ctx == NULL || line == NULL)
 		return (NULL);
@@ -65,8 +65,10 @@ char	**minishell_parse_line(t_minishell *ctx, char *line)
 	exp_words = expand_words(words, ctx);
 	if (words != NULL)
 		ft_lstclear(&words, free);
-	output = ft_lstmap(exp_words, cleanup_quotes_dc1_dc2, free);
+	output_lst = ft_lstmap(exp_words, cleanup_quotes_dc1_dc2, free);
 	if (exp_words != NULL)
 		ft_lstclear(&exp_words, free);
-	return (output);
+	tokens = ft_lst_to_argv(output_lst, 0);
+	ft_lstclean(&output_lst, NULL);
+	return (tokens);
 }

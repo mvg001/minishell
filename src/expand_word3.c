@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_word3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 08:58:11 by user1             #+#    #+#             */
-/*   Updated: 2025/06/15 13:33:38 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/20 18:22:50 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_list  *expand_words(t_list *words, t_minishell *ctx)
     previous_word_heredoc = 0;
     while (words != NULL)
     {
-        ft_dprintf(2, "expand_words next word: [%s]\n", words->content);
         if (previous_word_heredoc)
         {
             previous_word_heredoc = 0;

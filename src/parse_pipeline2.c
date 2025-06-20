@@ -6,84 +6,79 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 19:55:44 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/19 20:00:53 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:48:44 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hmap.h"
 #include "minishell.h"
 
-t_result    pipe2(t_pp *pps)
+static t_result append_new_command(t_pp *pps)
 {
-    t_operator opt;
+    char    **argv;
+    t_list    *aux;
 
-    if (pps->ctk == NULL)
-        return (pps->state = -1, OP_FAILED);
-    opt = get_operator_type(pps->ctk->content);
-    if (opt != OPER_ERROR && opt != OPER_NONE)
-        return (pps->state = -1, OP_FAILED);
-    pps->state = 1;
-    if (pps->op == OPER_GT || pps->op == OPER_GT_GT)
+    if (pps == NULL)
+        return (OP_FAILED);
+    argv = ft_lst_to_argv(pps->args, 0);
+    ft_lstclean(&pps->args, NULL);
+    pps->ccmd->args = argv;
+    aux = ft_lstnew(pps->ccmd);
+    if (aux == NULL)
     {
-        pps->ccmd->output_file = ft_strdup(pps->ctk->content);
-        pps->ccmd->append_output = (pps->op == OPER_GT_GT);
-        pps->op = OPER_NONE;
-        return (pps->op = OPER_NONE, OP_OK);
+        ft_dispose_split(argv);
+        pps->state = -1;
+        return (OP_FAILED);
     }
-    if (pps->op == OPER_LT || pps->op == OPER_LT_LT)
-    {
-        pps->ccmd->input_file = ft_strdup(pps->ctk->content);
-        pps->ccmd->is_here_doc = (pps->op == OPER_LT_LT);
-        pps->op = OPER_NONE;
-        return (OP_OK);
-    }
-    pps->state = -1;
-    return (OP_FAILED);
+    ft_lstadd_back(&pps->cmds, aux);
+    pps->ccmd = msh_create_command();
+    return (OP_OK);
 }
 
-t_result pipe4(t_pp *pps)
+static t_result append_new_word(t_pp *pps)
 {
-    t_operator opt;
+    t_list *aux;
 
-    if (pps->ctk == NULL)
+    if (pps == NULL)
+        return (OP_INVALID);
+    aux = ft_lstnew(pps->cur_tk);
+    if (aux == NULL)
         return (pps->state = -1, OP_FAILED);
-    opt = get_operator_type(pps->ctk->content);
-    if (opt != OPER_ERROR && opt != OPER_NONE)
-        return (pps->state = -1, OP_FAILED);
-    pps->state = 3;
-    if (pps->op == OPER_GT || pps->op == OPER_GT_GT)
-    {
-        pps->ccmd->output_file = ft_strdup(pps->ctk->content);
-        pps->ccmd->append_output = (pps->op == OPER_GT_GT);
-        pps->op = OPER_NONE;
-        return (pps->op = OPER_NONE, OP_OK);
-    }
-    if (pps->op == OPER_LT || pps->op == OPER_LT_LT)
-    {
-        pps->ccmd->input_file = ft_strdup(pps->ctk->content);
-        pps->ccmd->is_here_doc = (pps->op == OPER_LT_LT);
-        pps->op = OPER_NONE;
-        return (OP_OK);
-    }
-    pps->state = -1;
-    return (OP_FAILED);
+    ft_lstadd_back(&pps->args, aux);
+    return (OP_OK);
 }
 
-t_result    pipe5(t_pp *pps)
+t_result    parse_pipe3(t_pp *pps)
 {
-    t_entry *e;
-    t_list  *aux;
-
-    e = hmap_create_entry_from_str(pps->ctk->content, 0);
-    if (e != NULL)
+    ft_dprintf(2, "parse_pipe3 cur_tk [%s]\n", pps->cur_tk);
+    if (pps->cur_tk == NULL)
     {
-        aux = ft_lstnew(e);
-        if (aux == NULL)
+        if (append_new_command(pps) != OP_OK)
             return (pps->state = -1, OP_FAILED);
-        ft_lstadd_back(&pps->vars, aux);
-        return (pps->state = 5, OP_OK);
-    }
-    if (pps->ctk == NULL)
         return (pps->state = 0, OP_OK);
-    return (pps->state = -1, OP_FAILED);    
+    }
+    pps->op = get_operator_type(pps->cur_tk);
+    if (pps->op == OPER_PIPE)
+        return (pps->state = -1, OP_FAILED);
+    if (pps->op != OPER_NONE && pps->op != OPER_ERROR)
+        return (pps->state = 4, OP_OK);
+    if (append_new_word(pps) != OP_OK)
+        return (pps->state = -1, OP_FAILED);
+    return (pps->state = 5, OP_OK);
+}
+
+t_result    parse_pipe5(t_pp *pps)
+{
+    t_operator  op;
+
+    ft_dprintf(2, "parse_pipe3 cur_tk [%s]\n", pps->cur_tk);
+    op = get_operator_type(pps->cur_tk);
+    if (op == OPER_PIPE)
+    {
+        if (append_new_command(pps) != OP_OK)
+            return (pps->state = -1, OP_FAILED);
+        return (pps->state = 3, OP_OK);
+    }
+    pps->cur_tk--;
+    return (pps->state = 3, OP_OK);
 }

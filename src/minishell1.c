@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:07:17 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/15 20:38:10 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/20 12:58:13 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ t_minishell *minishell_init(char **envp)
 {
     t_minishell *ctx;
 
-    if (envp == NULL)
-        return NULL;
     ctx = ft_calloc(1, sizeof(t_minishell));
     if (ctx == NULL)
         return (NULL);

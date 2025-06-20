@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 14:21:21 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/18 16:36:50 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:06:46 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,8 @@ t_hmap  *load_env_vars(char **envp)
     t_entry e;
 
     if (envp == NULL)
-        return (NULL);
-    count = ft_split_count(envp);
-    if (count <= 0)
-        return (NULL);
+        count = 128;
+    count = ft_split_count(envp);    
     vars = hmap_create(count * 2, default_hash_func);
     if (vars == NULL)
         return (NULL);

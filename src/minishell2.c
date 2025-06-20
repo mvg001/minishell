@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 17:31:30 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/20 07:38:14 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:47:26 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,6 @@ t_operator  get_operator_type(char *str)
     if (ft_strcmp(str, "|") == 0)
         return (OPER_PIPE);
     return (OPER_NONE);
-}
-
-t_pipeline *minishell_parse_words(t_minishell *ctx, t_list *words)
-{
-    t_pp    *pps;
-
-    if (ctx == NULL || words == NULL)
-        return (NULL);
-    pps = ft_calloc(1, sizeof(t_pp));
-    if (pps == NULL)
-        return (NULL);
-    pps->state = 1;
-    pps->tokens = words;
-    pps->ctk = pps->tokens;
-    pps->op = OPER_NONE;
-
-    return (NULL);
 }
 
 char    **ft_lst_to_argv(t_list *lst, int is_deep_copy)
@@ -74,10 +57,10 @@ char    **ft_lst_to_argv(t_list *lst, int is_deep_copy)
     return (av);
 }
 
-int			minishell_execute(t_minishell *ctx, t_pipeline *cmds)
+int minishell_execute(t_minishell *ctx, t_pipeline *pipeline)
 {
     // TODO!!!!!!
     (void)ctx;
-    (void)cmds;
+    msh_print_pipeline(2, pipeline);
     return (0);
 }

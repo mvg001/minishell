@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 13:19:30 by user1             #+#    #+#             */
-/*   Updated: 2025/06/20 07:40:15 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/20 10:13:32 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void loop_states_tokenizer(t_ps *ps)
 	}
 }
 
-char **parser_tokenizer(t_minishell *ctx, char *line)
+t_list *parser_tokenizer(t_minishell *ctx, char *line)
 {
 	t_ps	*ps;
 
@@ -41,12 +41,11 @@ char **parser_tokenizer(t_minishell *ctx, char *line)
 	loop_states_tokenizer(ps);
 	if (ps->state < 0)
 	{
-		ft_lstclear(&ps->words, free);
 		ft_dprintf(2, "* Invalid input\n");
+		ft_lstclear(&ps->words, free);
 		ps_destroy(&ps);
 		return (NULL);
 	}
-    
 	return (ps_destroy(&ps));
 }
 

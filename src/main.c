@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:42:47 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/20 07:16:47 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:37:48 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,30 @@
 #include "hmap.h"
 #include "minishell.h"
 
+static void ft_print_argv(int fd, char *title, char **argv)
+{
+    if (fd <= 0 || argv == NULL)
+        return ;
+    if (title != NULL)
+        ft_dprintf(fd, "%s:\n", title);
+    while (*argv)
+        ft_dprintf(fd, "\t[%s]\n", *argv++);
+}
 static int process_line(t_minishell *ctx, char *line)
 {
     char  **tokens;
-    t_pipeline  *cmds;
+    t_pipeline  *pipeline;
 
     if (ctx == NULL || line == NULL)
     {
         return (-1);
     }
     tokens = minishell_parse_line(ctx, line);
-    cmds = minishell_parse_words(ctx, tokens);
+    ft_print_argv(2, "\nTokens", tokens);
+    pipeline = minishell_parse_tokens(ctx, tokens);
     ft_dispose_split(tokens);
-    ctx->last_status = minishell_execute(ctx, cmds);
-    // pipeline_destroy(cmds);
+    ctx->last_status = minishell_execute(ctx, pipeline);
+    msh_destroy_pipeline(pipeline);
     return (0);
 }
 
@@ -94,7 +104,7 @@ int main(int ac, char **av, char **envp)
         ft_dprintf(2, "unable to load environment vars\n");
         exit(EXIT_FAILURE);
     }
-    hmap_dump(2, ctx->vars);
+    // hmap_dump(2, ctx->vars);
     ctx->pid = ft_getpid();
     if (isatty(0))
         status = interactive(ctx);

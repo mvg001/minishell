@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:37:29 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/19 19:59:47 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:19:48 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	msh_print_pipeline(int fd, t_pipeline *pline)
     {
         i = -1;
         while (++i < pline->n_commands)
-            msh_print_command(fd, pline->commands + i);
+            msh_print_command(fd, pline->commands[i]);
     }
     ft_dprintf(fd, "\t:envp:\n");
     if (pline->envp == NULL)

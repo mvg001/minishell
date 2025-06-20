@@ -4,6 +4,7 @@
 *.md
 *.txt
 !compile_flags.txt
+bkp/
 tests/
 maps/
 bin/
