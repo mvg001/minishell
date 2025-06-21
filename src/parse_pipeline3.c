@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:49:19 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/21 15:24:52 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:45:50 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,39 +70,27 @@ t_pipeline *minishell_parse_tokens(t_minishell *ctx, char **tokens)
     t_pp        *pps;
     t_pipeline  *pipeline;
 
-    ft_dprintf(2, "minishell_parse_tokens\n");
     if (ctx == NULL || tokens == NULL)
-    {
-        ft_dprintf(2, "minishell_parse_tokens return NULL 1\n");
         return (NULL);
-    }
     pps = msh_create_pp_state();
     if (pps == NULL)
-    {
-        ft_dprintf(2, "minishell_parse_tokens return NULL 2\n");
         return (NULL);
-    }
     pps->tokens = tokens;
     pps->itk = 0;
     loop_states_parser_pipeline(pps);
     if (pps->state != 0)
     {
-        ft_dprintf(2, "parsing tokens failed\n");
+        ft_dprintf(2, "minishell: syntax error near unexpected token `newline'\n");
+        ctx->last_status = 2;
         msh_destroy_pp_state(&pps);
-        ft_dprintf(2, "minishell_parse_tokens return NULL 3\n");
         return (NULL);
     }
-    if (ft_lstsize(pps->vars) > 0)
-    {
-        add_new_vars(ctx->vars, &pps->vars);
-        ft_dprintf(2, "minishell_parse_tokens return NULL 4\n");
+    if (ft_lstsize(pps->vars) > 0 && add_new_vars(ctx->vars, &pps->vars) != OP_OK)
         return (NULL);
-    }
     pipeline = msh_create_pipeline();
     if (pipeline == NULL)
     {
         msh_destroy_pp_state(&pps);
-        ft_dprintf(2, "minishell_parse_tokens return NULL 5\n");
         return (NULL);
     }
     pipeline->envp = hmap_to_envp(ctx->vars);
@@ -110,6 +98,7 @@ t_pipeline *minishell_parse_tokens(t_minishell *ctx, char **tokens)
     pipeline->commands = get_cmd_array_from_list(pps->cmds);
     ft_lstclean(&pps->cmds, NULL);
     msh_destroy_pp_state(&pps);
-    ft_dprintf(2, "minishell_parse_tokens return\n");
+    if (msh_process_pipeline_heredocs(ctx, pipeline) != OP_OK)
+        msh_destroy_pipeline(pipeline);
     return (pipeline);
 }

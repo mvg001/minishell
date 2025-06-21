@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:49:36 by user1             #+#    #+#             */
-/*   Updated: 2025/06/19 14:34:51 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:50:36 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,19 @@ void    *cleanup_quotes_dc1_dc2(void *ptr)
             dst = append_char(dst, *src);
     }
     return (dst);
+}
+
+void    parser_print_words(char *title, t_list *words)
+{
+    char *aux;
+
+    ft_dprintf(2, "%s\n", title);
+    while (words != NULL)
+    {
+        aux = ft_strdup(words->content);
+        substitute_dc1_dc2_quotes(aux);
+        ft_dprintf(2, "[%s]\n", aux);
+        free(aux);
+        words = words->next;
+    }
 }

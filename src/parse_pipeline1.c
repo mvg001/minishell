@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:47:45 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/21 15:29:18 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:11:05 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,6 @@ void    msh_destroy_pp_state(t_pp **p_pps)
     if (p_pps == NULL || *p_pps == NULL)
         return ;
     pps = *p_pps;
-    // if (pps->tokens != NULL)
-    //     ft_dispose_split(pps->tokens);
-    ft_dprintf(2, "msh_destroy_pp_state tokens freed\n");
     if (pps->cmds != NULL)
         ft_lstclear(&pps->cmds, free);
     ft_dprintf(2, "msh_destroy_pp_state cmds freed\n");
@@ -79,7 +76,6 @@ t_result    parse_pipe1(t_pp *pps, char *ctk)
         pps->ccmd = msh_create_command();
     return (pps->state = 3, OP_OK);
 }
-
 t_result    parse_pipe2(t_pp *pps, char *ctk)
 {
     t_entry *e;
@@ -91,7 +87,10 @@ t_result    parse_pipe2(t_pp *pps, char *ctk)
         return (pps->state = 0, OP_OK);
     e = hmap_create_entry_from_str(ctk, 0);
     if (e == NULL)
+    {
+        ft_dprintf(2, "minishell: syntax error near unexpected token `newline'\n");
         return (pps->state = -1, OP_FAILED);
+    }
     entry_destroy(e);
     dup = ft_strdup(ctk);
     if (dup == NULL)

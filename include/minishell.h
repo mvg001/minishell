@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:05:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/21 15:56:40 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:00:09 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "hmap.h"
 # include "libft.h"
 
+# define MINISHELL_TMP_PREFIX	"/tmp/.minishell-"
 typedef struct s_command
 {
 	char	**args;
@@ -43,6 +44,7 @@ typedef struct s_minishell
 	int		tmp_count;
 	int		pid;
 	int		is_interactive;
+	char	*tmpfilename_prefix;
 }	t_minishell;
 
 typedef enum e_operator
@@ -102,4 +104,6 @@ t_result    parse_pipe2(t_pp *pps, char *ctk);
 t_result    parse_pipe3(t_pp *pps, char *ctk);
 t_result    parse_pipe4(t_pp *pps, char *ctk);
 t_result    parse_pipe5(t_pp *pps, char *ctk);
+t_result    msh_process_pipeline_heredocs(t_minishell *ctx, t_pipeline *ppl);
+char *get_tmp_filename(t_minishell *ctx);
 #endif

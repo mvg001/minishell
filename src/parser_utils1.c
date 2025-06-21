@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user1 <user1@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:19:54 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/15 13:09:16 by user1            ###   ########.fr       */
+/*   Updated: 2025/06/21 18:53:20 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,31 +73,35 @@ t_result ps_append_word(t_ps *ps)
     return (OP_OK);
 }
 
-char *append_char(char *w, char c)
+char *append_char(char *dst, char c)
 {
     char    s[2];
     char    *output;
 
     s[0] = c;
     s[1] = '\0';
-    if (w == NULL)
+    if (dst == NULL)
         return ft_strdup(s);
-    output = ft_strjoin(w, s);
-    free(w);
+    output = ft_strjoin(dst, s);
+    free(dst);
     return (output);
 }
 
-void    parser_print_words(char *title, t_list *words)
+char *append_string(char *w, char *str)
 {
-    char *aux;
+    char *output;
 
-    ft_dprintf(2, "%s\n", title);
-    while (words != NULL)
+    if (w == NULL)
     {
-        aux = ft_strdup(words->content);
-        substitute_dc1_dc2_quotes(aux);
-        ft_dprintf(2, "[%s]\n", aux);
-        free(aux);
-        words = words->next;
+        if (str == NULL)
+        {
+            return (NULL);
+        }
+        return (ft_strdup(str));
     }
+    if (str == NULL)
+        return (w);
+    output = ft_strjoin(w, str);
+    free(w);
+    return (output);
 }

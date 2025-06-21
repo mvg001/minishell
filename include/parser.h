@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:44:54 by user1             #+#    #+#             */
-/*   Updated: 2025/06/20 10:12:08 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:59:49 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_ps
 
 void		parser_print_words(char *title, t_list *words);
 char		*append_char(char *w, char c);
+char		*append_string(char *dst, char *src);
 t_ps		*ps_create(char *input_txt, int initial_state);
 t_list		*ps_destroy(t_ps **parser_state);
 void		parser_print_ps(t_ps *ps);

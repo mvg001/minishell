@@ -6,12 +6,14 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:37:29 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/21 16:28:38 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:32:49 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+#include <stddef.h>
+#include <unistd.h>
 
 t_pipeline	*msh_create_pipeline(void)
 {
@@ -25,10 +27,17 @@ t_pipeline	*msh_create_pipeline(void)
 
 void	msh_destroy_pipeline(t_pipeline *pline)
 {
+    int         i;
+
     if (pline == NULL)
         return ;
-    if (pline->commands != NULL)
+    if (pline->n_commands > 0)
+    {
+        i = -1;
+        while (++i < pline->n_commands)
+            msh_destroy_command(&pline->commands[i]);
         free(pline->commands);
+    }
     if (pline->envp != NULL)
         ft_dispose_split(pline->envp);
     free(pline);
