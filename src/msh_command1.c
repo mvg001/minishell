@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 17:37:40 by user1             #+#    #+#             */
-/*   Updated: 2025/06/17 14:49:00 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/21 16:50:34 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,11 @@ void    msh_print_command(int fd, t_command *sc)
     if (fd <= 0 || sc == NULL)
         return ;
     ft_dprintf(fd, "t_command{\n\tinput_file='%s'\n", sc->input_file);
-    ft_dprintf(fd, "{\n\tis_here_doc='%s'\n", sc->is_here_doc);
+    ft_dprintf(fd, "\n\tis_here_doc='%d'\n", sc->is_here_doc);
     ft_dprintf(fd, "\toutput_file='%s'\n", sc->output_file);
     ft_dprintf(fd, "\tappend_output=%d\n", sc->append_output);
-    ft_dprintf(fd, "\targs: [\n");
-    while (*sc->args)
-        ft_dprintf(fd, "\t\t'%s'\n", *sc->args++);
-    ft_dprintf(fd, "\t]\n}\n");
+    ft_print_argv(fd, "args:", sc->args);
+    ft_dprintf(fd, "\n}\n");
 }
 
 t_result    msh_command_set_input(t_command *sc, char *filename, int is_here_doc)

@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 17:31:30 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/20 16:47:26 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:56:53 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ char    **ft_lst_to_argv(t_list *lst, int is_deep_copy)
     int     i;
     char    *aux;
 
-    if (lst == NULL)
-        return (NULL);
     av = ft_calloc(ft_lstsize(lst) + 1, sizeof(char *));
     if (av == NULL)
         return (NULL);

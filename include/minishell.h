@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:05:53 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/20 18:46:21 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:56:40 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_pp
 	int			state;
 	t_operator	op;
 	char		**tokens;	// all tokens recognized
-	char		*cur_tk;	// current token 
+	int			itk;	// current token 
 	t_list		*cmds;		// commands already grouped
 	t_list		*vars;		// list of strings "KEY=VALUE"
 	t_list		*args;		// argument list for the current command
@@ -71,6 +71,7 @@ typedef struct s_pp
 
 extern int			g_signal_status;
 
+void ft_print_argv(int fd, char *title, char **argv);
 t_minishell	*minishell_init(char **envp);
 t_result	minishell_destroy(t_minishell *ctx);
 char		**minishell_parse_line(t_minishell *ctx, char *line);
@@ -96,9 +97,9 @@ t_pp    *msh_create_pp_state();
 void    msh_destroy_pp_state(t_pp **pps);
 
 t_operator  get_operator_type(char *str);
-t_result    parse_pipe1(t_pp *pps);
-t_result    parse_pipe2(t_pp *pps);
-t_result    parse_pipe3(t_pp *pps);
-t_result    parse_pipe4(t_pp *pps);
-t_result    parse_pipe5(t_pp *pps);
+t_result    parse_pipe1(t_pp *pps, char *ctk);
+t_result    parse_pipe2(t_pp *pps, char *ctk);
+t_result    parse_pipe3(t_pp *pps, char *ctk);
+t_result    parse_pipe4(t_pp *pps, char *ctk);
+t_result    parse_pipe5(t_pp *pps, char *ctk);
 #endif

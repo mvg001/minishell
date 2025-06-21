@@ -6,7 +6,7 @@
 /*   By: mvassall <mvassall@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:42:47 by mvassall          #+#    #+#             */
-/*   Updated: 2025/06/20 18:37:48 by mvassall         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:56:23 by mvassall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "hmap.h"
 #include "minishell.h"
 
-static void ft_print_argv(int fd, char *title, char **argv)
+void ft_print_argv(int fd, char *title, char **argv)
 {
     if (fd <= 0 || argv == NULL)
         return ;
@@ -27,6 +27,7 @@ static void ft_print_argv(int fd, char *title, char **argv)
     while (*argv)
         ft_dprintf(fd, "\t[%s]\n", *argv++);
 }
+
 static int process_line(t_minishell *ctx, char *line)
 {
     char  **tokens;
